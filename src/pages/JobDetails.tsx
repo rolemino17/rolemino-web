@@ -3,8 +3,14 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { getJob } from '../api/api';
 import { Job } from '../types';
 import { Button } from '../components/Button';
+import { Loading } from '../components/LoadingSpinner';
+import { useEffect } from 'react';
 
 export function JobDetails() {
+    useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [])
+
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const { data: job } = useQuery<Job>({
@@ -12,7 +18,7 @@ export function JobDetails() {
     queryFn: () => getJob(id!),
   });
 
-  if (!job) return <div className="pt-20 text-center text-gray-600">Loading...</div>;
+  if (!job) return <Loading />;
 
   return (
     <div className="pt-20 lg:pt-28 pb-12 bg-gray-200">

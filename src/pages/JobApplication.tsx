@@ -44,6 +44,11 @@ export function JobApplication() {
   const [isFeedbackModalOpen, setIsFeedbackModalOpen] = useState(false);
   const termsRef = useRef<HTMLDivElement>(null);
   const [termsScrolled, setTermsScrolled] = useState(false);
+  
+   useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [])
+
 
   const { data: job } = useQuery({
     queryKey: ["job", id],
@@ -137,7 +142,7 @@ export function JobApplication() {
     if (isFeedbackModalOpen) {
       const timer = setTimeout(() => {
         navigate("/jobs");
-      }, 6000); // Redirect after 3 seconds
+      }, 5000); // Redirect after 3 seconds
       return () => clearTimeout(timer);
     }
   }, [isFeedbackModalOpen, navigate]);
@@ -587,7 +592,7 @@ export function JobApplication() {
           onClose={() => setIsFeedbackModalOpen(false)}
           message="Application received successfully. You'll be redirected to the job explore page. Check your emails for further instructions."
           type="success"
-          autoCloseDuration={6000}
+          autoCloseDuration={5000}
         />
 
         {isTermsModalOpen && (
