@@ -32,7 +32,7 @@ export function FeedbackModal({ isOpen, onClose, message, type = 'info', autoClo
 
   // Dynamic styling based on type
   const typeStyles = {
-    success: 'bg-green-50 border-green-500 text-green-700',
+    success: 'bg-green-50 border-green-500 text-gray-700',
     error: 'bg-red-50 border-red-500 text-red-700',
     info: 'bg-blue-50 border-blue-500 text-blue-700',
   };
@@ -50,13 +50,13 @@ export function FeedbackModal({ isOpen, onClose, message, type = 'info', autoClo
           {type === 'success' ? 'Success' : type === 'error' ? 'Error' : 'Information'}
         </h2>
         <p className="text-sm">{message}</p>
-        <button
+        {/* <button
           onClick={onClose}
           className="mt-4 w-full bg-gray-200 text-gray-800 p-2 rounded-md hover:bg-gray-300 focus:ring-2 focus:ring-gray-400"
           aria-label="Close modal"
         >
           Close
-        </button>
+        </button> */}
       </div>
     </div>
   );

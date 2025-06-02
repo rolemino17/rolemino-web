@@ -9,6 +9,7 @@ export interface Job {
   description: string;
   responsibilities: string[];
   qualifications: string[];
+  benefits?: string[];
   compensation?: string;
   createdAt: Date;
 }

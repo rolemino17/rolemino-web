@@ -239,19 +239,19 @@ export function DocumentUpload() {
                 checked={isPrivacyAgreed}
                 onChange={(e) => setIsPrivacyAgreed(e.target.checked)}
                 disabled={!termsScrolled}
-                className="mr-2 leading-tight"
+                className="mr-2 leading-tight text-xs md:text-sm"
               />
-              I agree to the data privacy terms <span className="text-red-500">*</span>
+              I agree to the data privacy terms and conditions <span className="text-red-500">*</span>
               <button
                 type="button"
                 onClick={() => setIsTermsModalOpen(true)}
-                className="text-blue-500 underline ml-1"
+                className="text-blue-500 cursor-pointer underline ml-1"
               >
                 (View Terms)
               </button>
             </label>
             {!termsScrolled && (
-              <p className="text-sm text-red-500 mt-1">
+              <p className="text-xs md:text-sm text-red-500 mt-1">
                 You must read and scroll to the bottom of the terms to enable this checkbox.
               </p>
             )}
@@ -259,7 +259,7 @@ export function DocumentUpload() {
 
           <Button
             type="submit"
-            variant="accent"
+            variant="secondary"
             className="w-full sm:w-auto"
             disabled={isSubmitting || !isPrivacyAgreed}
           >
@@ -271,38 +271,95 @@ export function DocumentUpload() {
           <div className="fixed inset-0 bg-black/30 backdrop-blur-sm flex items-center justify-center z-40">
             <div
               ref={termsRef}
-              className="bg-white p-6 rounded-lg shadow-lg w-full max-w-md max-h-[80vh] overflow-y-auto animate-slideIn"
+              className="bg-white p-6 rounded-lg shadow-lg w-[96%] mx-auto md:mx-0 md:w-full max-w-2xl max-h-[80vh] overflow-y-auto animate-slideIn"
               tabIndex={0}
               role="dialog"
               aria-labelledby="terms-modal-title"
               onScroll={handleTermsScroll}
             >
-              <h2 id="terms-modal-title" className="text-xl font-bold mb-4">
-                Data Privacy Terms
+              <h2 className="text-lg font-semibold mb-4">
+                This Koovly Data Consent Form (“Data
+                Consent Form”) contains the following terms and conditions:{" "}
               </h2>
-              <p className="text-gray-700">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-                enim ad minim veniam, quis nostrud Lorem ipsum dolor sit amet,
-                consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut
-                labore et dolore magna aliqua. Ut enim ad minim veniam, quis
-                nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-                commodo consequat.Lorem ipsum dolor sit amet, consectetur
-                adipiscing elit. Sed do eiusmod tempor incididunt ut labore et
-                dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
-                exercitation ullamco laboris nisi ut aliquip ex ea commodo
-                consequat.Lorem ipsum dolor sit amet, consectetur adipiscing
-                elit. Sed do eiusmod tempor incididunt ut labore et dolore magna
-                aliqua. Ut enim ad minim veniam, quis nostrud exercitation
-                ullamco laboris nisi ut aliquip ex ea commodo
-                consequat.exercitation ullamco laboris nisi ut aliquip ex ea
-                commodo consequat.
+              <h3 className="font-medium mb-2">
+                Koovly Identity Verification Requirements
+              </h3>
+              <p className="text-gray-700 mb-3 text-sm">
+                In accordance with koovly&apos;s Employee's Standards, and fraud
+                and abuse prevention, you must undergo identity and location
+                verification checks if you would like to be eligible for
+                projects with koovly. The identity and location verification
+                process will be completed as a part of the final steps in
+                qualification before you can be onboarded to your first project
+                with Koovly. If you are successful in the other steps of
+                qualification, you will be provided with the necessary
+                instructions to complete the identity and location verification
+                via email. This information will be retained so that you can
+                more easily be eligible for other projects that require similar
+                identification verifications.
+              </p>
+
+              <h3 className="font-medium mb-2">Processing of Personal Data</h3>
+
+              <p className="text-gray-700 mb-3 text-sm">
+                We will need to collect, use, and retain personal data from you,
+                or from another entity you provide your personal data to, in
+                order to: maintain community standards, execute the project
+                requirements; communicate with you, comply with our legal
+                obligations as required by law; and fulfill any other
+                obligations we may have to our customers, vendors, or partners.
+                Examples of this include, but are not limited to, your contact
+                information to be able to contact you, your account information
+                and what projects you worked on for our record-keeping purposes,
+                your demographics information so we may offer you more relevant
+                project opportunities, your payment information so we can pay
+                you any owed amounts, other information for fraud
+                detection/prevention purposes such as biometrics collection
+                (e.g. facial recognition) for identify verification purposes.
+                You understand, acknowledge, and agree to processing and storing
+                of your personal data by Koovly and its affiliates and vendors as
+                necessary to exercise its rights and fulfill its obligations
+                under this Agreement and your data may be transferred by such
+                parties to the United States, Canada, the United Kingdom, the
+                European Union, Australia, Philippines, and other countries as
+                stated to you, but only for the purposes described herein. You
+                further, understand, acknowledge, and agree that some of your
+                personal data collected and processed is necessary to satisfy a
+                contract to which you are a party to, and such processing is not
+                based on consent and is not affected by your withdrawal of
+                consent. However, certain special categories or “sensitive”
+                personal data, such as data concerning health, biometric data,
+                racial or ethnic origin, religious affiliation, which may be
+                part of fraud prevention and project qualification requirements,
+                may require your consent before we can process the information.
+              </p>
+
+              <h3 className="font-medium mb-2">
+                Withdrawal of Consent and Right to Access Personal Data
+              </h3>
+              <p className="text-gray-700 mb-3 text-sm">
+                If applicable law allows you such rights, you may withdraw your
+                participation by contacting Koovly at the following
+                email:recruitment-team@koovly.com.
+              </p>
+
+              <p className="text-gray-700 mb-3 text-sm">
+                Please note that withdraw of your consent herein will prevent
+                you from performing further work on existing projects and
+                participating in any new or additional projects. After your
+                withdrawal, Appen and its affiliates, customers, and vendors may
+                continue to retain your information but only in accordance with
+                their respective legal obligations and/or legitimate interests,
+                such as your account information, what projects you participated
+                in for account management and record-keeping purposes, and data
+                collected necessary to maintain fraud prevention.
               </p>
               <button
                 onClick={() => setIsTermsModalOpen(false)}
-                className="mt-4 w-full bg-gray-200 text-gray-800 p-2 rounded-md hover:bg-gray-300 focus:ring-2 focus:ring-gray-400"
+                className="mt-4 w-full bg-green-500 text-white cursor-pointer p-2 rounded-md hover:bg-green-600 focus:ring-2 focus:ring-gray-400"
                 aria-label="Close modal"
               >
-                Close
+                Done
               </button>
             </div>
           </div>
