@@ -1,6 +1,6 @@
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Button } from './Button'; 
-import logo from '../assets/logo.jpg';
+import logo from '../assets/logo3.png';
 
 export function Navbar() {
   const location = useLocation();
@@ -30,7 +30,7 @@ export function Navbar() {
     <nav className="fixed top-0 w-full bg-white shadow-sm z-10">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center h-16">
         <Link to="/">
-          <img src={logo} alt="Koovly Logo" className="h-8" />
+          <img src={logo} alt="Koovly Logo" className="w-20 h-12" />
         </Link>
         <div className="flex space-x-4 items-center">
           <a

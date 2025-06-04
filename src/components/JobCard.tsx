@@ -21,7 +21,7 @@ export function JobCard({ job }: JobCardProps) {
       {/* <p className="text-gray-600 mb-2 italic font-light">{job.responsibilities}</p> */}
       <p className="text-gray-600 mb-8 font-medium">{job.description.substring(0, 200)}...</p>
       <div className='flex items-center gap-4 mb-3 absolute bottom-0 mt-4'>
-        <p className="text-gray-800 text-sm flex items-center justify-center px-3 py-1  bg-[#c3c3c3] rounded-[25px] shadow-sm">{job.location}</p>
+        <p className="text-gray-800 text-sm flex items-center justify-center px-3 py-1  bg-[#c3c3c3] rounded-[25px] shadow-sm">{job.location.split(',', 1)}</p>
         <p className="text-gray-800 text-sm flex items-center justify-center px-3 py-1 bg-[#c3c3c3] rounded-[25px] shadow-sm">{job.locationType}</p>
         <p className="text-gray-800 text-sm flex items-center justify-center px-3 py-1 bg-[#c3c3c3] rounded-[25px] shadow-sm">{job.compensation}</p>
       </div>

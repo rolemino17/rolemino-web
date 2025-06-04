@@ -1,5 +1,5 @@
 import { Button } from './Button';
-import logo from '../assets/logo.jpg';
+import logo from '../assets/logo3.png';
 
 export function Footer() {
   return (

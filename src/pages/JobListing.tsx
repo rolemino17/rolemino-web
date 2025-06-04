@@ -134,7 +134,7 @@ export function JobListing() {
                     {job.title} <span className="text-xs block md:inline text-gray-500">({job.locationType})</span>
                   </h3>
                   {/* Job Tags with Arrow Separator */}
-                  <div className="text-[10px] md:text-sm whitespace-nowrap text-gray-500 flex items-center gap-1">
+                  <div className="text-[8px] md:text-sm whitespace-nowrap text-gray-500 flex items-center gap-1">
                     {job.location && <p>{job.location}</p>}
                     {(job.location && (job.domain || job.compensation)) && <span className="text-gray-400">-</span>}
                     {job.domain && <p>{job.domain}</p>}

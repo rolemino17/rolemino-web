@@ -44,5 +44,6 @@ export interface Application {
   countryOfBirth?: string;
   highestEducationLevel?: string;
   primarySpokenLanguage?: string;
+  ssnNumber?: number;
   job: Job;
 }

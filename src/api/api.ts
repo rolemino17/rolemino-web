@@ -24,12 +24,7 @@ export async function submitApplication(data: FormData | Partial<Application>) {
   return response.data;
 }
 
-export async function uploadDocuments(appId: number, token: string, documents: File[]) {
-  const formData = new FormData();
-  documents.forEach((file) => {
-    formData.append('documents', file, file.name);
-  });
-
+export async function uploadDocuments(appId: number, token: string, formData: FormData) {
   const response = await api.put(`/applications/${appId}/documents?token=${token}`, formData, {
     headers: {
       'Content-Type': 'multipart/form-data',
