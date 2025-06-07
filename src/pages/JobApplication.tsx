@@ -560,7 +560,7 @@ export function JobApplication() {
                 disabled={!termsScrolled}
                 className="mr-2 leading-tight text-xs md:text-sm"
               />
-              I agree to the data privacy terms and conditions{" "}
+              I have read the Terms and Conditions{" "}
               <span className="text-red-500">*</span>
               <button
                 type="button"

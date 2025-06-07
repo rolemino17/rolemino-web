@@ -64,7 +64,7 @@ export function JobDetails() {
             className="mt-4 w-full sm:w-auto"
             onClick={() => navigate(`/jobs/${job.id}/apply`)}
           >
-            Apply for this Job Now
+            Apply
           </Button>
         </div>
       </div>

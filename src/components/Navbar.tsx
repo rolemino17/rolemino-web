@@ -1,6 +1,8 @@
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Button } from './Button'; 
-import logo from '../assets/logo3.png';
+// import logo from '../assets/logo3.png';
+
+const logo = "https://res.cloudinary.com/da8cw7lxs/image/upload/v1749055786/logo8_zsgxw8.png";
 
 export function Navbar() {
   const location = useLocation();
