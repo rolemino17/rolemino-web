@@ -130,8 +130,8 @@ export function JobListing() {
                 className="w-full cursor-pointer bg-white p-4 border-b border-gray-200 hover:bg-gray-50 transition-colors duration-200 flex justify-between items-start"
               >
                 <div className="space-y-1">
-                  <h3 className="text-lg font-semibold text-gray-900">
-                    {job.title} <span className="text-xs block md:inline text-gray-500">({job.locationType})</span>
+                  <h3 className="text-base font-semibold text-gray-900">
+                   URGENTLY HIRING:{" "} {job.title} <span className="text-xs block md:inline text-gray-500">({job.locationType})</span>
                   </h3>
                   {/* Job Tags with Arrow Separator */}
                   <div className="text-[8px] md:text-sm whitespace-nowrap text-gray-500 flex items-center gap-1">
