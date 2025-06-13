@@ -127,7 +127,7 @@ export function JobListing() {
               <div
                 onClick={() => navigate(`/jobs/${job.id}`)}
                 key={job.id}
-                className="w-full cursor-pointer bg-white p-4 border-b border-gray-200 hover:bg-gray-50 transition-colors duration-200 flex justify-between items-start"
+                className="w-full cursor-pointer bg-white p-4 border-b border-gray-200 hover:bg-gray-50 transition-colors duration-200 flex justify-between gap-2 items-start"
               >
                 <div className="space-y-1">
                   <h3 className="text-base font-semibold text-gray-900">
