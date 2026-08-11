@@ -320,7 +320,7 @@ export function DocumentUpload() {
               <p className="text-gray-700 mb-3 text-sm">
                 If applicable law allows you such rights, you may withdraw your
                 participation by contacting Rolemino at the following email:
-                recruitment-team@rolemino.com.
+                careers@rolemino.com.
               </p>
 
               <p className="text-gray-700 mb-3 text-sm">
