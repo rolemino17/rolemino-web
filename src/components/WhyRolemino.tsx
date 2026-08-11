@@ -9,17 +9,17 @@ const benefits = [
   { title: 'Easy Application', description: 'Apply to jobs with a streamlined process.' },
 ];
 
-export function WhyKoovly() {
+export function WhyRolemino() {
   return (
     <motion.section
       initial={{ opacity: 0 }}
       whileInView={{ opacity: 1 }}
       transition={{ duration: 1 }}
-      id='why-koovly'
+      id='why-rolemino'
       className="py-20 bg-secondary"
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h2 className="text-3xl font-bold text-primary text-center mb-4">Why Choose Koovly?</h2>
+        <h2 className="text-3xl font-bold text-primary text-center mb-4">Why Choose Rolemino?</h2>
         <p className="text-lg text-gray-800 text-center mb-12">
           Discover the benefits of joining our remote work platform.
         </p>

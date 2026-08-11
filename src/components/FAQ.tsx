@@ -3,11 +3,11 @@ import { motion } from 'framer-motion';
 
 const faqs = [
   {
-    question: 'What is Koovly?',
-    answer: 'Koovly is a platform connecting remote workers with global job opportunities, offering flexible work and seamless payments.'
+    question: 'What is Rolemino?',
+    answer: 'Rolemino is a platform connecting remote workers with global job opportunities, offering flexible work and seamless payments.'
   },
   {
-    question: 'Who can apply for jobs on Koovly?',
+    question: 'Who can apply for jobs on Rolemino?',
     answer: 'Anyone with the required skills can apply, including students, professionals, and retirees, regardless of location.'
   },
   {
@@ -19,8 +19,8 @@ const faqs = [
     answer: 'Verification typically takes 1-12 hours after submitting all required documents.'
   },
   {
-    question: 'Are there any fees to join Koovly?',
-    answer: 'No, joining Koovly is free. You only need to apply to jobs that interest you.'
+    question: 'Are there any fees to join Rolemino?',
+    answer: 'No, joining Rolemino is free. You only need to apply to jobs that interest you.'
   },
 ];
 

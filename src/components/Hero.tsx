@@ -17,7 +17,7 @@ export function Hero() {
             Work Remotely, <span className='text-blue-500'>Earn Seamlessly</span>
           </h1>
           <p className="text-lg mb-6">
-            Join Koovly to access global remote job opportunities and get paid hassle-free in your preferred method.
+            Join Rolemino to access global remote job opportunities and get paid hassle-free in your preferred method.
           </p>
           <Button variant="secondary" onClick={() => window.location.href = '/jobs'}>
             Apply for Jobs

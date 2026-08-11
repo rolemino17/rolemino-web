@@ -26,7 +26,7 @@ export function Statistics() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
         <h2 className="text-3xl font-bold text-primary mb-4">Join Our Global Community</h2>
         <p className="text-lg text-gray-800 mb-12">
-          From students to professionals, Koovly connects diverse talent to remote opportunities worldwide.
+          From students to professionals, Rolemino connects diverse talent to remote opportunities worldwide.
         </p>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
           {stats.map((stat, index) => (

@@ -1,8 +1,5 @@
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Button } from './Button'; 
-// import logo from '../assets/logo3.png';
-
-const logo = "https://res.cloudinary.com/da8cw7lxs/image/upload/v1749055786/logo8_zsgxw8.png";
 
 export function Navbar() {
   const location = useLocation();
@@ -32,7 +29,12 @@ export function Navbar() {
     <nav className="fixed top-0 w-full bg-white shadow-sm z-10">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center h-16">
         <Link to="/">
-          <img src={logo} alt="Koovly Logo" className="w-20 h-12" />
+          <span
+            aria-label="Rolemino home"
+            className="w-20 h-12 flex items-center text-xl font-bold tracking-tight text-blue-600"
+          >
+            Rolemino
+          </span>
         </Link>
         <div className="flex space-x-4 items-center">
           <a

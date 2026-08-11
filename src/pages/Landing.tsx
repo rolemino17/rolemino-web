@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { Hero } from "../components/Hero";
 import { Statistics } from "../components/Statistics";
 import { UserJourney } from "../components/UserJourney";
-import { WhyKoovly } from "../components/WhyKoovly";
+import { WhyRolemino } from "../components/WhyRolemino";
 import { FAQ } from "../components/FAQ";
 import { JobCard } from "../components/JobCard";
 import { Footer } from "../components/Footer";
@@ -31,7 +31,7 @@ export function Landing() {
         <UserJourney />
       </div>
       <div>
-        <WhyKoovly />
+        <WhyRolemino />
       </div>
       <div id="faq">
         <FAQ />

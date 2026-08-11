@@ -22,7 +22,7 @@ export function UserJourney() {
           <img src={journeyImage} alt="Journey Journey" className="rounded-lg shadow-lg" />
         </div>
         <div className="md:w-1/2 md:pl-8">
-          <h2 className="text-3xl font-bold text-primary mb-4">Your Journey with Koovly</h2>
+          <h2 className="text-3xl font-bold text-primary mb-4">Your Journey with Rolemino</h2>
           <p className="text-lg text-gray-600 mb-6">
             From application to payment, we make remote work simple and rewarding.
           </p>

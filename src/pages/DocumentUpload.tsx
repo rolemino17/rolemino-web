@@ -301,20 +301,20 @@ export function DocumentUpload() {
               onScroll={handleTermsScroll}
             >
               <h2 className="text-lg font-semibold mb-4">
-                This Koovly Data Consent Form (“Data Consent Form”) contains the
+                This Rolemino Data Consent Form (“Data Consent Form”) contains the
                 following terms and conditions:
               </h2>
               <h3 className="font-medium mb-2">
-                Koovly Identity Verification Requirements
+                Rolemino Identity Verification Requirements
               </h3>
               <p className="text-gray-700 mb-3 text-sm">
-                In accordance with koovly's Employee's Standards, and fraud and
+                In accordance with Rolemino's Employee's Standards, and fraud and
                 abuse prevention, you must undergo identity and location
                 verification checks if you would like to be eligible for
-                projects with koovly. The identity and location verification
+                projects with Rolemino. The identity and location verification
                 process will be completed as a part of the final steps in
                 qualification before you can be onboarded to your first project
-                with Koovly. If you are successful in the other steps of
+                with Rolemino. If you are successful in the other steps of
                 qualification, you will be provided with the necessary
                 instructions to complete the identity and location verification
                 via email. This information will be retained so that you can
@@ -339,7 +339,7 @@ export function DocumentUpload() {
                 detection/prevention purposes such as biometrics collection
                 (e.g. facial recognition) for identify verification purposes.
                 You understand, acknowledge, and agree to processing and storing
-                of your personal data by Koovly and its affiliates and vendors
+                of your personal data by Rolemino and its affiliates and vendors
                 as necessary to exercise its rights and fulfill its obligations
                 under this Agreement and your data may be transferred by such
                 parties to the United States, Canada, the United Kingdom, the
@@ -361,15 +361,15 @@ export function DocumentUpload() {
               </h3>
               <p className="text-gray-700 mb-3 text-sm">
                 If applicable law allows you such rights, you may withdraw your
-                participation by contacting Koovly at the following email:
-                recruitment-team@koovly.com.
+                participation by contacting Rolemino at the following email:
+                recruitment-team@rolemino.com.
               </p>
 
               <p className="text-gray-700 mb-3 text-sm">
                 Please note that withdraw of your consent herein will prevent
                 you from performing further work on existing projects and
                 participating in any new or additional projects. After your
-                withdrawal, Appen and its affiliates, customers, and vendors may
+                withdrawal, Rolemino and its affiliates, customers, and vendors may
                 continue to retain your information but only in accordance with
                 their respective legal obligations and/or legitimate interests,
                 such as your account information, what projects you participated
