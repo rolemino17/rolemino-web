@@ -12,10 +12,8 @@ export function DocumentUpload() {
   const jobTitle = decodeURIComponent(
     searchParams.get("jobTitle") || "the job"
   );
-  const [isUSResident, setIsUSResident] = useState(false);
   const [idFront, setIdFront] = useState<File | null>(null);
   const [idBack, setIdBack] = useState<File | null>(null);
-  const [ssnNumber, setSsnNumber] = useState("");
   const [isPrivacyAgreed, setIsPrivacyAgreed] = useState(false);
   const [isTermsModalOpen, setIsTermsModalOpen] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -70,11 +68,6 @@ export function DocumentUpload() {
       toast.error("Please upload the front of your government-issued ID.");
       return;
     }
-    if (isUSResident && ssnNumber && !/^\d{9}$/.test(ssnNumber)) {
-      toast.error("SSN must be a 9-digit number.");
-      return;
-    }
-
     setIsSubmitting(true);
     try {
       const documents = [idFront, idBack].filter(
@@ -82,9 +75,6 @@ export function DocumentUpload() {
       );
       const formData = new FormData();
       documents.forEach((file) => formData.append("documents", file));
-      if (isUSResident && ssnNumber) {
-        formData.append("ssnNumber", ssnNumber); // Send as string, backend will parse
-      }
       await uploadDocuments(appId, token, formData);
       toast.success(
         "Documents uploaded successfully. You will receive a confirmation email."
@@ -219,38 +209,6 @@ export function DocumentUpload() {
               {renderFileInput("Front of ID", idFront, setIdFront, "idFront")}
               {renderFileInput("Back of ID", idBack, setIdBack, "idBack")}
             </div>
-          </div>
-
-          <div className="space-y-4">
-            <label className="flex items-center">
-              <input
-                type="checkbox"
-                checked={isUSResident}
-                onChange={(e) => setIsUSResident(e.target.checked)}
-                className="mr-2"
-              />
-              <span className="text-gray-700 text-sm font-medium">
-                I am a U.S. citizen or resident
-              </span>
-            </label>
-            {isUSResident && (
-              <div className="space-y-2">
-                <h2 className="text-xl font-semibold">
-                  Social Security Number (Optional)
-                </h2>
-                <p className="text-sm text-gray-600">
-                  Enter your 9-digit Social Security Number.
-                </p>
-                <input
-                  type="number"
-                  value={ssnNumber}
-                  onChange={(e) => setSsnNumber(e.target.value)}
-                  placeholder="123456789"
-                  pattern="[0-9]{9}"
-                  className="w-full p-2 border rounded-md focus:ring-2 focus:ring-blue-500"
-                />
-              </div>
-            )}
           </div>
 
           <div>
