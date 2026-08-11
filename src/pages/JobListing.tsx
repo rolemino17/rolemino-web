@@ -1,22 +1,16 @@
 import { useQuery } from '@tanstack/react-query';
 import { useState } from 'react';
+import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { getJobs, filterJobs } from '../api/api';
 import { Job } from '../types';
 import { Button } from '../components/Button';
 import { countries } from '../data/CountryList';
-import { useEffect } from'react';
-// Import AOS (Animate On Scroll) library and styles
-import AOS from "aos";
-import "aos/dist/aos.css";
 
 const locationTypes = ['Remote', 'On-site', 'Hybrid'];
 const domains = ['Engineering', 'Data Collection', 'Generalist', 'Search Evaluation', 'Translation', 'Social Media', 'Linguistics', 'Other'];
 
 export function JobListing() {
-    useEffect(() => {
-    AOS.init({ once: true, duration: 800, offset: 80 });
-  }, []);
   const navigate = useNavigate();
   const [filters, setFilters] = useState({ location: '', locationType: '', domain: '' });
   const [isFilterOpen, setIsFilterOpen] = useState(false);
@@ -30,7 +24,12 @@ export function JobListing() {
   };
 
   return (
-    <div className="pt-20 lg:pt-[100px] pb-12 bg-[#f4f4f4] min-h-screen" data-aos="fade-up">
+    <motion.div
+      className="pt-20 lg:pt-[100px] pb-12 bg-[#f4f4f4] min-h-screen"
+      initial={{ opacity: 0, y: 24 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.8 }}
+    >
       <div className="max-w-7xl lg:w-[60%] mx-auto px-4 sm:px-6">
         {/* Filter Section */}
         <section className="font-readexpro">
@@ -156,6 +155,6 @@ export function JobListing() {
           )}
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 }
