@@ -26,12 +26,12 @@ export function Navbar() {
   };
 
   return (
-    <nav className="fixed top-0 w-full bg-white shadow-sm z-10">
+    <nav className="fixed top-0 w-full bg-surface border-b border-subtle shadow-sm z-10">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center h-16">
         <Link to="/">
           <span
             aria-label="Rolemino home"
-            className="w-20 h-12 flex items-center text-xl font-bold tracking-tight text-blue-600"
+            className="w-20 h-12 flex items-center text-xl font-bold tracking-tight text-brand"
           >
             Rolemino
           </span>
@@ -39,12 +39,12 @@ export function Navbar() {
         <div className="flex space-x-4 items-center">
           <a
             href="/#faq"
-            className="text-gray-600 hover:text-primary hover:text-purple-500 transition duration-500 hover:underline"
+            className="text-secondary hover:text-brand transition duration-500 hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-focus-ring)]"
             onClick={handleFaqClick}
           >
             FAQ
           </a>
-          <Button variant="secondary" onClick={() => window.location.href = '/jobs'}>
+          <Button variant="primary" onClick={() => window.location.href = '/jobs'}>
             View Projects
           </Button>
         </div>

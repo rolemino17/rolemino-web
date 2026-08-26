@@ -1,29 +1,190 @@
-@import url("https://fonts.googleapis.com/css2?family=Roboto&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Readex+Pro:wght@160..700&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap");
 
 @import "tailwindcss";
 
 @theme {
-  --font-roboto: "Roboto", sans-serif;
-  --font-readexpro: "Readex Pro", sans-serif;
   --font-inter: "Inter", sans-serif;
+
+  /* Primitive: Midnight / brand */
+  --color-brand-50: #F5F6F7;
+  --color-brand-100: #E8EBEE;
+  --color-brand-200: #D1D7DC;
+  --color-brand-300: #AFB8C2;
+  --color-brand-400: #8492A1;
+  --color-brand-500: #5B6E81;
+  --color-brand-600: #374D63;
+  --color-brand-700: #18324A;
+  --color-brand-800: #12283C;
+  --color-brand-900: #0C1E2E;
+  --color-brand-950: #06121F;
+
+  /* Primitive: Brass / accent */
+  --color-accent-50: #FBF8F4;
+  --color-accent-100: #F7F1E9;
+  --color-accent-200: #EEE2D4;
+  --color-accent-300: #E3CFB7;
+  --color-accent-400: #D5B893;
+  --color-accent-500: #B8894A;
+  --color-accent-600: #A47A41;
+  --color-accent-700: #8C6837;
+  --color-accent-800: #71532A;
+  --color-accent-900: #563E1F;
+  --color-accent-950: #3B2A12;
+
+  /* Primitive: Neutral + canvas */
+  --color-neutral-0: #FFFFFF;
+  --color-canvas-warm: #FCFBF8;
+  --color-neutral-50: #F4F3F1;
+  --color-neutral-100: #EAE9E7;
+  --color-neutral-200: #D5D5D3;
+  --color-neutral-300: #B4B5B4;
+  --color-neutral-400: #8B8C8D;
+  --color-neutral-500: #646667;
+  --color-neutral-600: #484A4C;
+  --color-neutral-700: #313437;
+  --color-neutral-800: #222528;
+  --color-neutral-900: #171A1D;
+  --color-neutral-950: #08090B;
+
+  /* Functional status primitives (exposed as theme colors for direct use in semantic layer) */
+  --color-success-bg: #EFF8F3;
+  --color-success-border: #B7D7C5;
+  --color-success-text: #24533E;
+  --color-success-solid: #2F6B50;
+  --color-warning-bg: #FFF8E6;
+  --color-warning-border: #E9C46A;
+  --color-warning-text: #6B4700;
+  --color-warning-solid: #9A6700;
+  --color-danger-bg: #FFF1F0;
+  --color-danger-border: #F0B4AE;
+  --color-danger-text: #8A1C13;
+  --color-danger-solid: #B42318;
+  --color-info-bg: #EEF5FB;
+  --color-info-border: #B8CCE0;
+  --color-info-text: #244A6D;
+  --color-info-solid: #2F5D8A;
+}
+
+/* Semantic layer — components consume these (primitive -> semantic) */
+:root {
+  --color-bg-canvas: var(--color-canvas-warm);
+  --color-bg-surface: var(--color-neutral-0);
+  --color-bg-subtle: var(--color-neutral-50);
+  --color-bg-muted: var(--color-neutral-100);
+  --color-bg-brand-subtle: var(--color-brand-50);
+  --color-bg-brand-selected: var(--color-brand-100);
+  --color-bg-inverse: var(--color-brand-900);
+  --color-bg-brand: var(--color-brand-700);
+  --color-bg-accent-subtle: var(--color-accent-50);
+
+  --color-text-primary: var(--color-neutral-900);
+  --color-text-secondary: var(--color-neutral-500);
+  --color-text-strong-secondary: var(--color-neutral-600);
+  --color-text-muted: var(--color-neutral-400);
+  --color-text-inverse: var(--color-neutral-0);
+  --color-text-brand: var(--color-brand-700);
+  --color-text-accent: var(--color-accent-800);
+
+  --color-border-subtle: var(--color-neutral-100);
+  --color-border-default: var(--color-neutral-200);
+  --color-border-strong: var(--color-neutral-300);
+  --color-border-brand: var(--color-brand-300);
+
+  --color-focus-ring: var(--color-brand-400);
+
+  --color-action-primary: var(--color-brand-700);
+  --color-action-primary-hover: var(--color-brand-800);
+  --color-action-primary-active: var(--color-brand-900);
+  --color-action-secondary-bg: var(--color-neutral-0);
+  --color-action-secondary-hover: var(--color-brand-50);
+  --color-action-secondary-active: var(--color-brand-100);
+  --color-action-ghost-hover: var(--color-brand-50);
+  --color-action-accent: var(--color-accent-500);
+  --color-action-accent-hover: var(--color-accent-600);
+
+  --color-text-inverse-secondary: var(--color-brand-200);
+  --color-border-inverse: var(--color-brand-800);
+
+  --color-action-accent-active: var(--color-accent-700);
+  --color-action-link-hover: var(--color-brand-900);
+
+  --color-action-success: var(--color-success-solid);
+  --color-action-success-hover: var(--color-success-text);
+
+  --color-action-danger: var(--color-danger-solid);
+  --color-action-danger-hover: var(--color-danger-text);
+
+  --color-selection-bg: var(--color-brand-100);
+  --color-selection-indicator: var(--color-brand-700);
+  --color-decorative-accent: var(--color-accent-500);
+
+  --color-overlay: rgba(8, 9, 11, 0.32);
+}
+
+/* Semantic Tailwind utilities — clean names that resolve to CSS variables */
+/* Backgrounds */
+@utility bg-canvas { background-color: var(--color-bg-canvas); }
+@utility bg-surface { background-color: var(--color-bg-surface); }
+@utility bg-subtle { background-color: var(--color-bg-subtle); }
+@utility bg-muted { background-color: var(--color-bg-muted); }
+@utility bg-brand-subtle { background-color: var(--color-bg-brand-subtle); }
+@utility bg-brand-selected { background-color: var(--color-bg-brand-selected); }
+@utility bg-inverse { background-color: var(--color-bg-inverse); }
+@utility bg-brand { background-color: var(--color-bg-brand); }
+@utility bg-accent-subtle { background-color: var(--color-bg-accent-subtle); }
+
+/* Functional backgrounds */
+@utility bg-success { background-color: var(--color-success-bg); }
+@utility bg-warning { background-color: var(--color-warning-bg); }
+@utility bg-danger { background-color: var(--color-danger-bg); }
+@utility bg-info { background-color: var(--color-info-bg); }
+
+/* Text */
+@utility text-primary { color: var(--color-text-primary); }
+@utility text-secondary { color: var(--color-text-secondary); }
+@utility text-strong-secondary { color: var(--color-text-strong-secondary); }
+@utility text-muted { color: var(--color-text-muted); }
+@utility text-inverse { color: var(--color-text-inverse); }
+@utility text-brand { color: var(--color-text-brand); }
+@utility text-accent { color: var(--color-text-accent); }
+@utility text-success { color: var(--color-success-text); }
+@utility text-warning { color: var(--color-warning-text); }
+@utility text-danger { color: var(--color-danger-text); }
+@utility text-info { color: var(--color-info-text); }
+
+/* Borders */
+@utility border-subtle { border-color: var(--color-border-subtle); }
+@utility border-default { border-color: var(--color-border-default); }
+@utility border-strong { border-color: var(--color-border-strong); }
+@utility border-brand { border-color: var(--color-border-brand); }
+@utility border-success { border-color: var(--color-success-border); }
+@utility border-warning { border-color: var(--color-warning-border); }
+@utility border-danger { border-color: var(--color-danger-border); }
+@utility border-info { border-color: var(--color-info-border); }
+
+/* Inverse */
+@utility text-inverse-secondary { color: var(--color-text-inverse-secondary); }
+@utility border-inverse { border-color: var(--color-border-inverse); }
+
+/* Focus */
+@utility ring-focus { --tw-ring-color: var(--color-focus-ring); }
+
+/* Decorative */
+@utility text-decorative { color: var(--color-decorative-accent); }
+@utility bg-decorative { background-color: var(--color-decorative-accent); }
+@utility border-decorative { border-color: var(--color-decorative-accent); }
+
+html {
+  font-family: 'Inter', sans-serif;
 }
 
 body {
   font-family: 'Inter', sans-serif;
-  background-color: #F3F4F6;
+  background-color: var(--color-bg-canvas);
+  color: var(--color-text-primary);
   scroll-behavior: smooth;
 }
 
-.bg-secondary{
-  background-color: blueviolet;
-}
-
-.bg-primary{
-  background-color:blue;
-}
-
-.bg-accent{
-  background-color: orangered;
+input, button, textarea, select {
+  font-family: inherit;
 }

@@ -33,7 +33,7 @@ export function FAQ() {
       whileInView={{ opacity: 1 }}
       transition={{ duration: 1 }}
       id="faq"
-      className="py-20 bg-white"
+      className="py-20 bg-canvas border-t border-subtle"
     >
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
         <h2 className="text-3xl font-bold text-primary text-center mb-12">Frequently Asked Questions</h2>
@@ -43,17 +43,17 @@ export function FAQ() {
             initial={{ y: 20, opacity: 0 }}
             whileInView={{ y: 0, opacity: 1 }}
             transition={{ delay: 0.2 * index }}
-            className="mb-4"
+            className="mb-4 border border-default rounded-lg overflow-hidden"
           >
             <button
-              className="w-full cursor-pointer text-left p-4 bg-secondary rounded-lg flex justify-between items-center"
+              className="w-full cursor-pointer text-left p-4 bg-surface hover:bg-brand-subtle flex justify-between items-center text-primary focus-visible:outline-2 focus-visible:outline-[var(--color-focus-ring)]"
               onClick={() => setOpenIndex(openIndex === index ? null : index)}
             >
               <span className="text-lg font-semibold">{faq.question}</span>
-              <span>{openIndex === index ? '−' : '+'}</span>
+              <span className="text-brand">{openIndex === index ? '−' : '+'}</span>
             </button>
             {openIndex === index && (
-              <div className="p-4 bg-secondary text-gray-800">{faq.answer}</div>
+              <div className="p-4 bg-subtle text-secondary border-t border-subtle">{faq.answer}</div>
             )}
           </motion.div>
         ))}

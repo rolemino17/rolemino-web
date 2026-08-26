@@ -100,14 +100,14 @@ export function DocumentUpload() {
     field: string
   ) => (
     <div className="space-y-2">
-      <label className="block text-gray-700 text-sm font-medium">{label}</label>
+      <label className="block text-strong-secondary text-sm font-medium">{label}</label>
       {!file ? (
         <label
-          className="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed border-gray-300 rounded-md cursor-pointer hover:border-blue-500 transition"
+          className="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed border-default rounded-md cursor-pointer hover:border-brand bg-surface hover:bg-brand-subtle transition"
           htmlFor={`${field}-input`}
         >
           <svg
-            className="w-12 h-12 text-gray-400"
+            className="w-12 h-12 text-muted"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
@@ -120,7 +120,7 @@ export function DocumentUpload() {
               d="M3 10h18M3 14h18m-9-4v8m-7 0h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"
             />
           </svg>
-          <span className="text-sm text-gray-500">
+          <span className="text-sm text-secondary">
             Upload {label.toLowerCase()}
           </span>
           <input
@@ -132,7 +132,7 @@ export function DocumentUpload() {
           />
         </label>
       ) : (
-        <div className="relative w-full h-32 border border-gray-300 rounded-md overflow-hidden">
+        <div className="relative w-full h-32 border border-default rounded-md overflow-hidden bg-surface">
           {file.type.startsWith("image/") ? (
             <img
               src={URL.createObjectURL(file)}
@@ -140,9 +140,9 @@ export function DocumentUpload() {
               className="w-full h-full object-cover"
             />
           ) : (
-            <div className="flex flex-col items-center justify-center w-full h-full bg-gray-100">
+            <div className="flex flex-col items-center justify-center w-full h-full bg-muted">
               <svg
-                className="w-12 h-12 text-gray-400"
+                className="w-12 h-12 text-muted"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -155,13 +155,13 @@ export function DocumentUpload() {
                   d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"
                 />
               </svg>
-              <span className="text-sm text-gray-500">{file.name}</span>
+              <span className="text-sm text-secondary">{file.name}</span>
             </div>
           )}
           <button
             type="button"
             onClick={() => handleRemoveFile(setter)}
-            className="absolute top-2 right-2 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center hover:bg-red-600"
+            className="absolute top-2 right-2 bg-[var(--color-action-danger)] text-inverse rounded-full w-6 h-6 flex items-center justify-center hover:bg-[var(--color-action-danger-hover)]"
             aria-label={`Remove ${label}`}
           >
             ×
@@ -173,10 +173,10 @@ export function DocumentUpload() {
 
   if (!isValidParams) {
     return (
-      <div className="pt-20 pb-12 min-h-screen">
+      <div className="pt-20 pb-12 min-h-screen bg-canvas">
         <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h1 className="text-3xl font-bold mb-6">Invalid Link</h1>
-          <p className="text-red-500">
+          <h1 className="text-3xl font-bold mb-6 text-primary">Invalid Link</h1>
+          <p className="text-danger">
             The document upload link is invalid or expired. Please contact
             support.
           </p>
@@ -186,22 +186,22 @@ export function DocumentUpload() {
   }
 
   return (
-    <div className="pt-20 pb-12 min-h-screen">
+    <div className="pt-20 pb-12 min-h-screen bg-canvas">
       <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h1 className="text-xl lg:text-3xl font-bold mb-6">Upload Documents</h1>
-        <p className="text-gray-600 mb-4">
+        <h1 className="text-xl lg:text-3xl font-bold mb-6 text-primary">Upload Documents</h1>
+        <p className="text-secondary mb-4">
           Please upload the required documents for your application to{" "}
           {jobTitle}.
         </p>
         <form
           onSubmit={handleSubmit}
-          className="bg-white p-6 rounded-lg shadow-md space-y-6"
+          className="bg-surface p-6 rounded-lg shadow-md border border-default space-y-6"
         >
           <div className="space-y-4">
             <h2 className="text-xl font-semibold">
               Government-Issued ID (Required)
             </h2>
-            <p className="text-xs text-gray-600">
+            <p className="text-xs text-secondary">
               Upload front and back of your driver’s license or national ID card
               (PDF, PNG, JPEG, or JPG, max 5MB each).
             </p>
@@ -212,26 +212,26 @@ export function DocumentUpload() {
           </div>
 
           <div>
-            <label className="block text-gray-700 text-sm font-medium mb-1">
+            <label className="block text-strong-secondary text-sm font-medium mb-1">
               <input
                 type="checkbox"
                 checked={isPrivacyAgreed}
                 onChange={(e) => setIsPrivacyAgreed(e.target.checked)}
                 disabled={!termsScrolled}
-                className="mr-2 leading-tight text-xs md:text-sm"
+                className="mr-2 leading-tight accent-[var(--color-action-primary)] text-xs md:text-sm"
               />
               I have read the Terms and Conditions{" "}
-              <span className="text-red-500">*</span>
+              <span className="text-danger">*</span>
               <button
                 type="button"
                 onClick={() => setIsTermsModalOpen(true)}
-                className="text-blue-500 cursor-pointer underline ml-1"
+                className="text-brand cursor-pointer underline hover:text-[var(--color-action-link-hover)] ml-1"
               >
                 (View Terms)
               </button>
             </label>
             {!termsScrolled && (
-              <p className="text-xs md:text-sm text-red-500 mt-1">
+              <p className="text-xs md:text-sm text-danger mt-1">
                 You must read and scroll to the bottom of the terms to enable
                 this checkbox.
               </p>
@@ -249,10 +249,10 @@ export function DocumentUpload() {
         </form>
 
         {isTermsModalOpen && (
-          <div className="fixed inset-0 bg-black/30 backdrop-blur-sm flex items-center justify-center z-40">
+          <div className="fixed inset-0 bg-[var(--color-overlay)] backdrop-blur-sm flex items-center justify-center z-40">
             <div
               ref={termsRef}
-              className="bg-white p-6 rounded-lg shadow-lg w-[96%] mx-auto md:mx-0 md:w-full max-w-2xl max-h-[80vh] overflow-y-auto animate-slideIn"
+              className="bg-surface p-6 rounded-lg shadow-lg border border-default w-[96%] mx-auto md:mx-0 md:w-full max-w-2xl max-h-[80vh] overflow-y-auto animate-slideIn"
               tabIndex={0}
               role="dialog"
               aria-labelledby="terms-modal-title"
@@ -265,7 +265,7 @@ export function DocumentUpload() {
               <h3 className="font-medium mb-2">
                 Rolemino Identity Verification Requirements
               </h3>
-              <p className="text-gray-700 mb-3 text-sm">
+              <p className="text-secondary mb-3 text-sm">
                 In accordance with Rolemino's Employee's Standards, and fraud and
                 abuse prevention, you must undergo identity and location
                 verification checks if you would like to be eligible for
@@ -281,7 +281,7 @@ export function DocumentUpload() {
               </p>
 
               <h3 className="font-medium mb-2">Processing of Personal Data</h3>
-              <p className="text-gray-700 mb-3 text-sm">
+              <p className="text-secondary mb-3 text-sm">
                 We will need to collect, use, and retain personal data from you,
                 or from another entity you provide your personal data to, in
                 order to: maintain community standards, execute the project
@@ -317,13 +317,13 @@ export function DocumentUpload() {
               <h3 className="font-medium mb-2">
                 Withdrawal of Consent and Right to Access Personal Data
               </h3>
-              <p className="text-gray-700 mb-3 text-sm">
+              <p className="text-secondary mb-3 text-sm">
                 If applicable law allows you such rights, you may withdraw your
                 participation by contacting Rolemino at the following email:
                 careers@rolemino.com.
               </p>
 
-              <p className="text-gray-700 mb-3 text-sm">
+              <p className="text-secondary mb-3 text-sm">
                 Please note that withdraw of your consent herein will prevent
                 you from performing further work on existing projects and
                 participating in any new or additional projects. After your
@@ -336,7 +336,7 @@ export function DocumentUpload() {
               </p>
               <button
                 onClick={() => setIsTermsModalOpen(false)}
-                className="mt-4 w-full bg-green-500 text-white cursor-pointer p-2 rounded-md hover:bg-green-600 focus:ring-2 focus:ring-gray-400"
+                className="mt-4 w-full bg-[var(--color-action-success)] text-inverse cursor-pointer p-2 rounded-md hover:bg-[var(--color-action-success-hover)] focus:ring-2 focus:ring-[var(--color-focus-ring)] focus:outline-none"
                 aria-label="Close modal"
               >
                 Done

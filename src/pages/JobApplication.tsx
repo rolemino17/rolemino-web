@@ -243,10 +243,10 @@ export function JobApplication() {
 
   if (isNaN(jobId)) {
     return (
-      <div className="pt-20 pb-12 min-h-screen">
+      <div className="pt-20 pb-12 min-h-screen bg-canvas">
         <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h1 className="text-3xl font-bold mb-6">Invalid Job ID</h1>
-          <p className="text-red-500">
+          <h1 className="text-3xl font-bold mb-6 text-primary">Invalid Job ID</h1>
+          <p className="text-danger">
             The job ID provided is invalid. Please check the URL and try again.
           </p>
         </div>
@@ -255,31 +255,31 @@ export function JobApplication() {
   }
 
   return (
-    <div className="pt-20 pb-12 min-h-screen">
+    <div className="pt-20 pb-12 min-h-screen bg-canvas">
       <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h1 className="text-base lg:text-3xl font-bold mb-6">
+        <h1 className="text-base lg:text-3xl font-bold mb-6 text-primary">
           Apply for {job ? job.title : "Loading..."}
         </h1>
         <form
           onSubmit={handleSubmit}
-          className="bg-white p-6 rounded-lg shadow-md space-y-6"
+          className="bg-surface p-6 rounded-lg shadow-md border border-default space-y-6"
         >
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <label className="block text-gray-700 text-sm font-medium mb-1">
-                First Name <span className="text-red-500">*</span>
+              <label className="block text-strong-secondary text-sm font-medium mb-1">
+                First Name <span className="text-danger">*</span>
               </label>
               <input
                 type="text"
                 name="firstName"
                 value={formData.firstName || ""}
                 onChange={handleChange}
-                className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
+                className="w-full p-2 border border-default rounded-md bg-surface text-primary placeholder:text-muted hover:border-strong focus:border-brand focus:ring-2 focus:ring-[var(--color-focus-ring)] focus:outline-none"
                 required
               />
             </div>
             <div>
-              <label className="block text-gray-700 text-sm font-medium mb-1">
+              <label className="block text-strong-secondary text-sm font-medium mb-1">
                 Middle Name
               </label>
               <input
@@ -287,38 +287,38 @@ export function JobApplication() {
                 name="middleName"
                 value={formData.middleName || ""}
                 onChange={handleChange}
-                className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
+                className="w-full p-2 border border-default rounded-md bg-surface text-primary placeholder:text-muted hover:border-strong focus:border-brand focus:ring-2 focus:ring-[var(--color-focus-ring)] focus:outline-none"
               />
             </div>
             <div>
-              <label className="block text-gray-700 text-sm font-medium mb-1">
-                Last Name <span className="text-red-500">*</span>
+              <label className="block text-strong-secondary text-sm font-medium mb-1">
+                Last Name <span className="text-danger">*</span>
               </label>
               <input
                 type="text"
                 name="lastName"
                 value={formData.lastName || ""}
                 onChange={handleChange}
-                className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
+                className="w-full p-2 border border-default rounded-md bg-surface text-primary placeholder:text-muted hover:border-strong focus:border-brand focus:ring-2 focus:ring-[var(--color-focus-ring)] focus:outline-none"
                 required
               />
             </div>
             <div>
-              <label className="block text-gray-700 text-sm font-medium mb-1">
-                Email <span className="text-red-500">*</span>
+              <label className="block text-strong-secondary text-sm font-medium mb-1">
+                Email <span className="text-danger">*</span>
               </label>
               <input
                 type="email"
                 name="email"
                 value={formData.email || ""}
                 onChange={handleChange}
-                className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
+                className="w-full p-2 border border-default rounded-md bg-surface text-primary placeholder:text-muted hover:border-strong focus:border-brand focus:ring-2 focus:ring-[var(--color-focus-ring)] focus:outline-none"
                 required
               />
             </div>
             <div>
-              <label className="block text-gray-700 text-sm font-medium mb-1">
-                Phone <span className="text-red-500">*</span>
+              <label className="block text-strong-secondary text-sm font-medium mb-1">
+                Phone <span className="text-danger">*</span>
               </label>
               <input
                 type="tel"
@@ -327,19 +327,19 @@ export function JobApplication() {
                 required
                 maxLength={11}
                 onChange={handleChange}
-                className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
+                className="w-full p-2 border border-default rounded-md bg-surface text-primary placeholder:text-muted hover:border-strong focus:border-brand focus:ring-2 focus:ring-[var(--color-focus-ring)] focus:outline-none"
               />
             </div>
             <div>
-              <label className="block text-gray-700 text-sm font-medium mb-1">
-                Phone Country Code <span className="text-red-500">*</span>
+              <label className="block text-strong-secondary text-sm font-medium mb-1">
+                Phone Country Code <span className="text-danger">*</span>
               </label>
               <select
                 name="phoneCountryCode"
                 value={formData.phoneCountryCode || ""}
                 onChange={handleChange}
                 required
-                className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
+                className="w-full p-2 border border-default rounded-md bg-surface text-primary placeholder:text-muted hover:border-strong focus:border-brand focus:ring-2 focus:ring-[var(--color-focus-ring)] focus:outline-none"
               >
                 {countryCodes.map(({ country, code, isoCode }) => (
                   <option key={isoCode} value={code}>
@@ -349,47 +349,47 @@ export function JobApplication() {
               </select>
             </div>
             <div>
-              <label className="block text-gray-700 text-sm font-medium mb-1">
-                Street Address <span className="text-red-500">*</span>
+              <label className="block text-strong-secondary text-sm font-medium mb-1">
+                Street Address <span className="text-danger">*</span>
               </label>
               <input
                 type="text"
                 name="streetName"
                 value={formData.residentialAddress?.streetName || ""}
                 onChange={handleAddressChange}
-                className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
+                className="w-full p-2 border border-default rounded-md bg-surface text-primary placeholder:text-muted hover:border-strong focus:border-brand focus:ring-2 focus:ring-[var(--color-focus-ring)] focus:outline-none"
                 required
               />
             </div>
             <div>
-              <label className="block text-gray-700 text-sm font-medium mb-1">
-                City <span className="text-red-500">*</span>
+              <label className="block text-strong-secondary text-sm font-medium mb-1">
+                City <span className="text-danger">*</span>
               </label>
               <input
                 type="text"
                 name="city"
                 value={formData.residentialAddress?.city || ""}
                 onChange={handleAddressChange}
-                className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
+                className="w-full p-2 border border-default rounded-md bg-surface text-primary placeholder:text-muted hover:border-strong focus:border-brand focus:ring-2 focus:ring-[var(--color-focus-ring)] focus:outline-none"
                 required
               />
             </div>
             <div>
-              <label className="block text-gray-700 text-sm font-medium mb-1">
-                State <span className="text-red-500">*</span>
+              <label className="block text-strong-secondary text-sm font-medium mb-1">
+                State <span className="text-danger">*</span>
               </label>
               <input
                 type="text"
                 name="state"
                 value={formData.residentialAddress?.state || ""}
                 onChange={handleAddressChange}
-                className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
+                className="w-full p-2 border border-default rounded-md bg-surface text-primary placeholder:text-muted hover:border-strong focus:border-brand focus:ring-2 focus:ring-[var(--color-focus-ring)] focus:outline-none"
                 required
               />
             </div>
             <div>
-              <label className="block text-gray-700 text-sm font-medium mb-1">
-                Postal Code <span className="text-red-500">*</span>
+              <label className="block text-strong-secondary text-sm font-medium mb-1">
+                Postal Code <span className="text-danger">*</span>
               </label>
               <input
                 type="text"
@@ -397,19 +397,19 @@ export function JobApplication() {
                 value={formData.residentialAddress?.postalCode || ""}
                 onChange={handleAddressChange}
                 maxLength={6}
-                className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
+                className="w-full p-2 border border-default rounded-md bg-surface text-primary placeholder:text-muted hover:border-strong focus:border-brand focus:ring-2 focus:ring-[var(--color-focus-ring)] focus:outline-none"
                 required
               />
             </div>
             <div>
-              <label className="block text-gray-700 text-sm font-medium mb-1">
-                Country <span className="text-red-500">*</span>
+              <label className="block text-strong-secondary text-sm font-medium mb-1">
+                Country <span className="text-danger">*</span>
               </label>
               <select
                 name="country"
                 value={formData.residentialAddress?.country || ""}
                 onChange={handleAddressChange}
-                className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
+                className="w-full p-2 border border-default rounded-md bg-surface text-primary placeholder:text-muted hover:border-strong focus:border-brand focus:ring-2 focus:ring-[var(--color-focus-ring)] focus:outline-none"
                 required
               >
                 <option value="">Select Country</option>
@@ -421,15 +421,15 @@ export function JobApplication() {
               </select>
             </div>
             <div>
-              <label className="block text-gray-700 text-sm font-medium mb-1">
-                Country of Birth <span className="text-red-500">*</span>
+              <label className="block text-strong-secondary text-sm font-medium mb-1">
+                Country of Birth <span className="text-danger">*</span>
               </label>
               <select
                 name="countryOfBirth"
                 value={formData.countryOfBirth || ""}
                 required
                 onChange={handleChange}
-                className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
+                className="w-full p-2 border border-default rounded-md bg-surface text-primary placeholder:text-muted hover:border-strong focus:border-brand focus:ring-2 focus:ring-[var(--color-focus-ring)] focus:outline-none"
               >
                 <option value="">Select Country</option>
                 {countries.map((country) => (
@@ -440,15 +440,15 @@ export function JobApplication() {
               </select>
             </div>
             <div>
-              <label className="block text-gray-700 text-sm font-medium mb-1">
-                Highest Education Level <span className="text-red-500">*</span>
+              <label className="block text-strong-secondary text-sm font-medium mb-1">
+                Highest Education Level <span className="text-danger">*</span>
               </label>
               <select
                 name="highestEducationLevel"
                 value={formData.highestEducationLevel || ""}
                 onChange={handleChange}
                 required
-                className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
+                className="w-full p-2 border border-default rounded-md bg-surface text-primary placeholder:text-muted hover:border-strong focus:border-brand focus:ring-2 focus:ring-[var(--color-focus-ring)] focus:outline-none"
               >
                 <option value="" disabled>
                   Select Education Level
@@ -489,8 +489,8 @@ export function JobApplication() {
               </select>
             </div>
             <div>
-              <label className="block text-gray-700 text-sm font-medium mb-1">
-                Primary Spoken Language <span className="text-red-500">*</span>
+              <label className="block text-strong-secondary text-sm font-medium mb-1">
+                Primary Spoken Language <span className="text-danger">*</span>
               </label>
               <input
                 type="text"
@@ -498,11 +498,11 @@ export function JobApplication() {
                 value={formData.primarySpokenLanguage || ""}
                 onChange={handleChange}
                 required
-                className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
+                className="w-full p-2 border border-default rounded-md bg-surface text-primary placeholder:text-muted hover:border-strong focus:border-brand focus:ring-2 focus:ring-[var(--color-focus-ring)] focus:outline-none"
               />
             </div>
             <div>
-              <label className="block text-gray-700 text-sm font-medium mb-1">
+              <label className="block text-strong-secondary text-sm font-medium mb-1">
                 Additional Language
               </label>
               <input
@@ -510,12 +510,12 @@ export function JobApplication() {
                 name="additionalLanguage"
                 value={formData.additionalLanguage || ""}
                 onChange={handleChange}
-                className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
+                className="w-full p-2 border border-default rounded-md bg-surface text-primary placeholder:text-muted hover:border-strong focus:border-brand focus:ring-2 focus:ring-[var(--color-focus-ring)] focus:outline-none"
               />
             </div>
             <div>
-              <label className="block text-gray-700 text-sm font-medium mb-1">
-                Available Hours per week <span className="text-red-500">*</span>
+              <label className="block text-strong-secondary text-sm font-medium mb-1">
+                Available Hours per week <span className="text-danger">*</span>
               </label>
               <input
                 type="number"
@@ -523,11 +523,11 @@ export function JobApplication() {
                 value={formData.availableHours || ""}
                 onChange={handleChange}
                 required
-                className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
+                className="w-full p-2 border border-default rounded-md bg-surface text-primary placeholder:text-muted hover:border-strong focus:border-brand focus:ring-2 focus:ring-[var(--color-focus-ring)] focus:outline-none"
               />
             </div>
             {/* <div>
-              <label className="block text-gray-700 text-sm font-medium mb-1">
+              <label className="block text-strong-secondary text-sm font-medium mb-1">
                 Desired Pay Rate
               </label>
               <input
@@ -536,58 +536,58 @@ export function JobApplication() {
                 placeholder="eg. $12/hr"
                 value={formData.expectedPay || ""}
                 onChange={handleChange}
-                className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
+                className="w-full p-2 border border-default rounded-md bg-surface text-primary placeholder:text-muted hover:border-strong focus:border-brand focus:ring-2 focus:ring-[var(--color-focus-ring)] focus:outline-none"
               />
             </div> */}
             <div className="sm:col-span-2">
-              <label className="block text-gray-700 text-sm font-medium mb-1">
-                CV/Resume <span className="text-red-500">*</span>
+              <label className="block text-strong-secondary text-sm font-medium mb-1">
+                CV/Resume <span className="text-danger">*</span>
               </label>
               <input
                 type="file"
                 name="resumeUrl"
                 onChange={handleFileChange}
-                className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
+                className="w-full p-2 border border-default rounded-md bg-surface text-primary placeholder:text-muted hover:border-strong focus:border-brand focus:ring-2 focus:ring-[var(--color-focus-ring)] focus:outline-none"
                 accept="application/pdf"
                 required
               />
-              <p className="mt-1 text-xs text-gray-500">PDF only, maximum size 5 MB.</p>
+              <p className="mt-1 text-xs text-secondary">PDF only, maximum size 5 MB.</p>
             </div>
             <div className="sm:col-span-2">
-              <label className="block text-gray-700 text-sm font-medium mb-1">
+              <label className="block text-strong-secondary text-sm font-medium mb-1">
                 Additional Information
               </label>
               <textarea
                 name="additionalInformation"
                 value={formData.additionalInformation || ""}
                 onChange={handleChange}
-                className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 h-24"
+                className="w-full p-2 border border-default rounded-md bg-surface text-primary placeholder:text-muted hover:border-strong focus:border-brand focus:ring-2 focus:ring-[var(--color-focus-ring)] focus:outline-none h-24"
                 placeholder="Include a cover letter or any additional info..."
               />
             </div>
           </div>
           <div className="sm:col-span-2">
-            <label className="block text-gray-700 text-sm font-medium mb-1">
+            <label className="block text-strong-secondary text-sm font-medium mb-1">
               <input
                 type="checkbox"
                 name="dataAgreement"
                 checked={formData.dataAgreement || false}
                 onChange={handleChange}
                 disabled={!termsScrolled}
-                className="mr-2 leading-tight text-xs md:text-sm"
+                className="mr-2 leading-tight accent-[var(--color-action-primary)] border-default text-xs md:text-sm"
               />
               I have read the Terms and Conditions{" "}
-              <span className="text-red-500">*</span>
+              <span className="text-danger">*</span>
               <button
                 type="button"
                 onClick={() => setIsTermsModalOpen(true)}
-                className="text-blue-500 cursor-pointer underline ml-1"
+                className="text-brand cursor-pointer underline hover:text-[var(--color-action-link-hover)] ml-1"
               >
                 (View Terms)
               </button>
             </label>
             {!termsScrolled && (
-              <p className="text-xs md:text-sm text-red-500 mt-1">
+              <p className="text-xs md:text-sm text-danger mt-1">
                 You must read and scroll to the bottom of the terms to enable
                 this checkbox.
               </p>
@@ -612,9 +612,9 @@ export function JobApplication() {
         />
 
         {isTermsModalOpen && (
-          <div className="fixed inset-0 bg-black/30 backdrop-blur-sm flex items-center justify-center z-25">
+          <div className="fixed inset-0 bg-[var(--color-overlay)] backdrop-blur-sm flex items-center justify-center z-25">
             <div
-              className="bg-white p-6 rounded-lg w-[96%] mx-auto md:mx-0 md:w-full max-w-2xl max-h-[80vh] overflow-y-auto"
+              className="bg-surface p-6 rounded-lg border border-default w-[96%] mx-auto md:mx-0 md:w-full max-w-2xl max-h-[80vh] overflow-y-auto"
               ref={termsRef}
               onScroll={handleTermsScroll}
             >
@@ -625,7 +625,7 @@ export function JobApplication() {
               <h3 className="font-medium mb-2">
                 Rolemino Identity Verification Requirements
               </h3>
-              <p className="text-gray-700 mb-3 text-sm">
+              <p className="text-secondary mb-3 text-sm">
                 In accordance with Rolemino&apos;s Employee's Standards, and fraud
                 and abuse prevention, you must undergo identity and location
                 verification checks if you would like to be eligible for
@@ -642,7 +642,7 @@ export function JobApplication() {
 
               <h3 className="font-medium mb-2">Processing of Personal Data</h3>
 
-              <p className="text-gray-700 mb-3 text-sm">
+              <p className="text-secondary mb-3 text-sm">
                 We will need to collect, use, and retain personal data from you,
                 or from another entity you provide your personal data to, in
                 order to: maintain community standards, execute the project
@@ -678,13 +678,13 @@ export function JobApplication() {
               <h3 className="font-medium mb-2">
                 Withdrawal of Consent and Right to Access Personal Data
               </h3>
-              <p className="text-gray-700 mb-3 text-sm">
+              <p className="text-secondary mb-3 text-sm">
                 If applicable law allows you such rights, you may withdraw your
                 participation by contacting Rolemino at the following
                 email:careers@rolemino.com.
               </p>
 
-              <p className="text-gray-700 mb-3 text-sm">
+              <p className="text-secondary mb-3 text-sm">
                 Please note that withdraw of your consent herein will prevent
                 you from performing further work on existing projects and
                 participating in any new or additional projects. After your
@@ -698,7 +698,7 @@ export function JobApplication() {
 
               <button
                 onClick={() => setIsTermsModalOpen(false)}
-                className="mt-4 w-full bg-green-500 text-white cursor-pointer p-2 rounded-md"
+                className="mt-4 w-full bg-[var(--color-action-success)] text-inverse cursor-pointer p-2 rounded-md hover:bg-[var(--color-action-success-hover)]"
               >
                 Done
               </button>

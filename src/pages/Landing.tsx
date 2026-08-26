@@ -36,7 +36,7 @@ export function Landing() {
       <div id="faq">
         <FAQ />
       </div>
-      <section className="py-10 bg-secondary font-readexpro">
+      <section className="py-10 bg-subtle font-inter border-t border-subtle">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="text-3xl font-bold text-primary text-center mb-12">
             Featured Jobs
@@ -52,7 +52,7 @@ export function Landing() {
           ) : null}
         </div>
         <div className="flex items-center justify-center mt-9">
-          <Button variant="accent" onClick={() => navigate(`/jobs`)}>
+          <Button variant="primary" onClick={() => navigate(`/jobs`)}>
             Explore All Jobs
           </Button>
         </div>

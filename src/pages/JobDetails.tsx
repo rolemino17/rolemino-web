@@ -21,17 +21,17 @@ export function JobDetails() {
   if (!job) return <Loading />;
 
   return (
-    <div className="pt-20 lg:pt-28 pb-12 bg-gray-200">
+    <div className="pt-20 lg:pt-28 pb-12 bg-canvas">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h1 className="text-lg lg:text-3xl font-bold capitalize mb-2">{job.title} <span className="text-gray-600 text-xs md:text-base capitalize">({job.location})</span></h1>
+        <h1 className="text-lg lg:text-3xl font-bold capitalize mb-2">{job.title} <span className="text-secondary text-xs md:text-base capitalize">({job.location})</span></h1>
          <div className="flex items-center gap-2 mb-4">
-           <p className='text-xs font-light flex items-center justify-center px-3 py-1  bg-[#c3c3c3] rounded-[25px] shadow-sm'> {job.locationType}</p>
-            <p className='text-xs font-light flex items-center justify-center px-3 py-1  bg-[#c3c3c3] rounded-[25px] shadow-sm'> {job.domain}</p>
-            <p className='text-xs font-light flex items-center justify-center px-3 py-1  bg-[#c3c3c3] rounded-[25px] shadow-sm'> {job.compensation || 'N/A'}</p>
+           <p className='text-xs font-medium flex items-center justify-center px-3 py-1 bg-subtle rounded-[25px] border border-default shadow-sm text-strong-secondary'> {job.locationType}</p>
+            <p className='text-xs font-medium flex items-center justify-center px-3 py-1 bg-subtle rounded-[25px] border border-default shadow-sm text-strong-secondary'> {job.domain}</p>
+            <p className='text-xs font-medium flex items-center justify-center px-3 py-1 bg-subtle rounded-[25px] border border-default shadow-sm text-strong-secondary'> {job.compensation || 'N/A'}</p>
          </div>
-        <div className="p-6 space-y-4 bg-[#f4f4f4] text-gray-700 text-sm">
+        <div className="p-6 space-y-4 bg-surface text-secondary text-sm border border-default rounded-lg">
           <p > {job.description}</p>
-          <p><strong>Responsibilities:</strong></p>
+          <p><strong className="text-primary">Responsibilities:</strong></p>
           <ul className="list-disc list-inside">
             {job.responsibilities.map((resp, index) => (
               <li key={index}>{resp}</li>
@@ -39,7 +39,7 @@ export function JobDetails() {
           </ul>
           {job.benefits && (
             <>
-              <p><strong>Benefits:</strong></p>
+              <p><strong className="text-primary">Benefits:</strong></p>
               <ul className="list-disc list-inside">
                 {job.benefits.map((benefit, index) => (
                   <li key={index}>{benefit}</li>
@@ -47,7 +47,7 @@ export function JobDetails() {
               </ul>
             </>
           )}
-          <p><strong>Qualifications:</strong></p>
+          <p><strong className="text-primary">Qualifications:</strong></p>
           <ul className="list-disc list-inside">
             {job.qualifications.map((qual, index) => (
               <li key={index}>{qual}</li>
@@ -60,7 +60,7 @@ export function JobDetails() {
 
           </h2>
           <Button
-            variant="secondary"
+            variant="primary"
             className="mt-4 w-full sm:w-auto"
             onClick={() => navigate(`/jobs/${job.id}/apply`)}
           >
