@@ -100,7 +100,6 @@ export function JobApplication() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isTermsOpen, setIsTermsOpen] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
-  const [successRef, setSuccessRef] = useState<string | undefined>(undefined);
   const errorSummaryRef = useRef<HTMLDivElement>(null);
   const draftKey = opportunityId;
 
@@ -213,9 +212,7 @@ export function JobApplication() {
       const response = await submitApplication(formDataToSend);
       return response;
     },
-    onSuccess: (data) => {
-      const ref = data?.id ?? data?.applicationId ?? data?.reference ?? data?.application?.id ?? data?.token ?? undefined;
-      setSuccessRef(ref ? String(ref) : undefined);
+    onSuccess: () => {
       setShowSuccess(true);
       setIsSubmitting(false);
       clearDraft(draftKey);
@@ -430,15 +427,6 @@ export function JobApplication() {
             <p className="mt-3 text-[14px] leading-[1.7] text-secondary">
               Rolemino will review your information against the opportunity requirements. If your application qualifies for the next stage, Rolemino will contact you by email.
             </p>
-            <p className="mt-3 text-[13px] leading-[1.6] text-secondary bg-subtle border border-default rounded-[10px] px-4 py-3">
-              Qualified candidates may be introduced to the project owner for final selection. Submitting an application does not guarantee qualification or project participation.
-            </p>
-            {successRef && (
-              <div className="mt-5 bg-subtle border border-default rounded-[10px] px-4 py-3">
-                <p className="text-[12px] font-medium text-strong-secondary">Application reference</p>
-                <p className="text-[14px] font-mono font-medium text-primary break-all">{successRef}</p>
-              </div>
-            )}
             <div className="mt-5 space-y-3 text-[13px] leading-[1.6] text-secondary">
               <p>Official contributor communication is sent through <a href="mailto:careers@rolemino.com" className="text-brand underline">careers@rolemino.com</a>.</p>
             </div>
