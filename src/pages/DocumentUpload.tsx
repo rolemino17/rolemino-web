@@ -1,350 +1,398 @@
-import { useState, useRef } from "react";
-import { useSearchParams, useNavigate } from "react-router-dom";
-import { Button } from "../components/Button";
-import { uploadDocuments } from "../api/api";
-import toast from "react-hot-toast";
+import { useState, useEffect, useRef, useMemo } from 'react';
+import { useSearchParams, Link } from 'react-router-dom';
+import { Button } from '../components/Button';
+import { uploadDocuments } from '../api/api';
+import toast from 'react-hot-toast';
+import {
+  FormSection,
+  FormErrorSummary,
+  InlineNotice,
+  TermsDialog,
+} from '../components/forms/FormPrimitives';
+
+const MAX_SIZE = 5 * 1024 * 1024;
+const ALLOWED_TYPES = ['application/pdf', 'image/png', 'image/jpeg', 'image/jpg'];
+const ALLOWED_LABEL = 'PDF, PNG, JPEG or JPG';
+
+function validateFile(file: File | null, required: boolean): string | undefined {
+  if (!file) return required ? 'Please upload the required document.' : undefined;
+  const lowerName = file.name.toLowerCase();
+  const extOk = lowerName.endsWith('.pdf') || lowerName.endsWith('.png') || lowerName.endsWith('.jpeg') || lowerName.endsWith('.jpg');
+  const typeOk = ALLOWED_TYPES.includes(file.type) || (file.type === 'image/jpg' && ALLOWED_TYPES.includes('image/jpeg'));
+  if (!extOk || (!typeOk && file.type)) {
+    // allow if extension is ok even if mime is weird, but still check
+    if (!extOk) return `Only ${ALLOWED_LABEL} files are allowed.`;
+  }
+  if (file.size > MAX_SIZE) return 'File must not exceed 5 MB.';
+  if (file.size === 0) return 'The selected file is empty.';
+  return undefined;
+}
+
+function useObjectUrl(file: File | null): string | undefined {
+  const [url, setUrl] = useState<string | undefined>(undefined);
+  useEffect(() => {
+    if (file && file.type.startsWith('image/')) {
+      const u = URL.createObjectURL(file);
+      setUrl(u);
+      return () => URL.revokeObjectURL(u);
+    }
+    setUrl(undefined);
+  }, [file]);
+  return url;
+}
 
 export function DocumentUpload() {
   const [searchParams] = useSearchParams();
-  const navigate = useNavigate();
-  const appId = parseInt(searchParams.get("appId") || "0");
-  const token = searchParams.get("token") || "";
-  const jobTitle = decodeURIComponent(
-    searchParams.get("jobTitle") || "the job"
-  );
+  const appId = parseInt(searchParams.get('appId') || '0', 10);
+  const token = searchParams.get('token') || '';
+  const jobTitle = useMemo(() => {
+    const raw = searchParams.get('jobTitle');
+    return raw ? decodeURIComponent(raw) : '';
+  }, [searchParams]);
+
+  const isValidParams = appId > 0 && token.length >= 32; // token is 36 but allow >=32 to be tolerant
+
   const [idFront, setIdFront] = useState<File | null>(null);
   const [idBack, setIdBack] = useState<File | null>(null);
+  const [frontError, setFrontError] = useState<string | undefined>(undefined);
+  const [backError, setBackError] = useState<string | undefined>(undefined);
   const [isPrivacyAgreed, setIsPrivacyAgreed] = useState(false);
-  const [isTermsModalOpen, setIsTermsModalOpen] = useState(false);
+  const [privacyError, setPrivacyError] = useState<string | undefined>(undefined);
+  const [isTermsOpen, setIsTermsOpen] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const termsRef = useRef<HTMLDivElement>(null);
-  const [termsScrolled, setTermsScrolled] = useState(false);
+  const [formLevelError, setFormLevelError] = useState<string | undefined>(undefined);
+  const [showSuccess, setShowSuccess] = useState(false);
+  const [reference, setReference] = useState<string | undefined>(undefined);
+  const errorSummaryRef = useRef<HTMLDivElement>(null);
+  const frontUrl = useObjectUrl(idFront);
+  const backUrl = useObjectUrl(idBack);
 
-  // Validate appId and token
-  const isValidParams = appId > 0 && token.length === 36;
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
-  const handleFileChange = (
-    e: React.ChangeEvent<HTMLInputElement>,
-    setter: React.Dispatch<React.SetStateAction<File | null>>
+  useEffect(() => {
+    document.title = isValidParams ? 'Submit your verification documents | Rolemino' : 'Invalid link | Rolemino';
+  }, [isValidParams]);
+
+  const handleSelect = (
+    file: File | null,
+    setter: (f: File | null) => void,
+    setErr: (e: string | undefined) => void,
+    required: boolean,
   ) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-
-    if (
-      !["application/pdf", "image/png", "image/jpeg", "image/jpg"].includes(
-        file.type
-      )
-    ) {
-      toast.error("Only PDF, PNG, JPEG, or JPG files are allowed.");
+    if (!file) {
+      setter(null);
+      setErr(undefined);
       return;
     }
-    if (file.size > 5 * 1024 * 1024) {
-      toast.error("File must be under 5MB.");
+    const err = validateFile(file, required);
+    if (err) {
+      setter(null);
+      setErr(err);
+      toast.error(err);
       return;
     }
+    setErr(undefined);
     setter(file);
-  };
-
-  const handleRemoveFile = (
-    setter: React.Dispatch<React.SetStateAction<File | null>>
-  ) => {
-    setter(null);
-  };
-
-  const handleTermsScroll = (e: React.UIEvent<HTMLDivElement>) => {
-    const { scrollTop, scrollHeight, clientHeight } = e.currentTarget;
-    if (scrollTop + clientHeight >= scrollHeight - 10) {
-      setTermsScrolled(true);
-    }
+    setFormLevelError(undefined);
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!isPrivacyAgreed) {
-      toast.error("Please agree to the data privacy terms before submitting.");
+    const fErr = validateFile(idFront, true);
+    const bErr = validateFile(idBack, false);
+    setFrontError(fErr);
+    setBackError(bErr);
+    if (!isPrivacyAgreed) setPrivacyError('You must accept the Document Submission Terms and Conditions.');
+    else setPrivacyError(undefined);
+
+    if (fErr || bErr || !isPrivacyAgreed) {
+      const first = fErr || bErr || (!isPrivacyAgreed ? 'Please accept the terms.' : '');
+      setFormLevelError(first);
+      errorSummaryRef.current?.focus();
+      const elId = fErr ? 'idFront-input' : bErr ? 'idBack-input' : 'privacy-checkbox';
+      document.getElementById(elId)?.focus();
       return;
     }
-    if (!idFront) {
-      toast.error("Please upload the front of your government-issued ID.");
-      return;
-    }
+
+    setFormLevelError(undefined);
     setIsSubmitting(true);
     try {
-      const documents = [idFront, idBack].filter(
-        (file): file is File => file !== null
-      );
-      const formData = new FormData();
-      documents.forEach((file) => formData.append("documents", file));
-      await uploadDocuments(appId, token, formData);
-      toast.success(
-        "Documents uploaded successfully. You will receive a confirmation email."
-      );
-      setTimeout(() => navigate("/jobs"), 2000);
-    } catch (error: unknown) {
-      if (error instanceof Error) {
-        toast.error(
-          error.message || "Failed to upload documents. Please try again."
-        );
-      } else {
-        toast.error("Failed to upload documents. Please try again.");
-      }
+      const docs = [idFront, idBack].filter((f): f is File => f !== null);
+      const fd = new FormData();
+      docs.forEach((f) => fd.append('documents', f));
+      const res = await uploadDocuments(appId, token, fd);
+      const ref = res?.id ?? res?.applicationId ?? res?.reference ?? String(appId);
+      setReference(ref ? String(ref) : undefined);
+      setShowSuccess(true);
+      window.scrollTo(0, 0);
+      toast.success('Documents received. Rolemino will continue the qualification process.');
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : 'Failed to upload documents. Please try again.';
+      setFormLevelError(msg);
+      toast.error(msg);
+      errorSummaryRef.current?.focus();
     } finally {
       setIsSubmitting(false);
     }
   };
 
-  const renderFileInput = (
-    label: string,
-    file: File | null,
-    setter: React.Dispatch<React.SetStateAction<File | null>>,
-    field: string
-  ) => (
-    <div className="space-y-2">
-      <label className="block text-strong-secondary text-sm font-medium">{label}</label>
-      {!file ? (
-        <label
-          className="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed border-default rounded-md cursor-pointer hover:border-brand bg-surface hover:bg-brand-subtle transition"
-          htmlFor={`${field}-input`}
-        >
-          <svg
-            className="w-12 h-12 text-muted"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M3 10h18M3 14h18m-9-4v8m-7 0h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"
-            />
-          </svg>
-          <span className="text-sm text-secondary">
-            Upload {label.toLowerCase()}
-          </span>
-          <input
-            id={`${field}-input`}
-            type="file"
-            accept="application/pdf,image/png,image/jpeg,image/jpg"
-            onChange={(e) => handleFileChange(e, setter)}
-            className="hidden"
-          />
-        </label>
-      ) : (
-        <div className="relative w-full h-32 border border-default rounded-md overflow-hidden bg-surface">
-          {file.type.startsWith("image/") ? (
-            <img
-              src={URL.createObjectURL(file)}
-              alt={`${label} preview`}
-              className="w-full h-full object-cover"
-            />
-          ) : (
-            <div className="flex flex-col items-center justify-center w-full h-full bg-muted">
-              <svg
-                className="w-12 h-12 text-muted"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"
-                />
-              </svg>
-              <span className="text-sm text-secondary">{file.name}</span>
-            </div>
-          )}
-          <button
-            type="button"
-            onClick={() => handleRemoveFile(setter)}
-            className="absolute top-2 right-2 bg-[var(--color-action-danger)] text-inverse rounded-full w-6 h-6 flex items-center justify-center hover:bg-[var(--color-action-danger-hover)]"
-            aria-label={`Remove ${label}`}
-          >
-            ×
-          </button>
-        </div>
-      )}
-    </div>
-  );
-
   if (!isValidParams) {
     return (
-      <div className="pt-20 pb-12 min-h-screen bg-canvas">
-        <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h1 className="text-3xl font-bold mb-6 text-primary">Invalid Link</h1>
-          <p className="text-danger">
-            The document upload link is invalid or expired. Please contact
-            support.
-          </p>
-        </div>
+      <div className="pt-16 bg-canvas min-h-screen">
+        <main id="main-content" className="max-w-[720px] mx-auto px-4 sm:px-6 py-10">
+          <div className="bg-surface border border-default rounded-[12px] p-6 sm:p-8 text-center">
+            <h1 className="text-[20px] font-semibold text-primary">Invalid or expired link</h1>
+            <p className="mt-2 text-[14px] leading-[1.6] text-secondary max-w-[52ch] mx-auto">
+              This document submission link is invalid or has expired. This stage is only accessible through instructions sent by Rolemino from{' '}
+              <a href="mailto:careers@rolemino.com" className="text-brand underline">careers@rolemino.com</a>.
+            </p>
+            <div className="mt-6 flex flex-col sm:flex-row gap-3 justify-center">
+              <Link to="/jobs" className="inline-flex items-center justify-center px-6 py-3 min-h-[44px] rounded-[10px] bg-[var(--color-action-primary)] text-inverse">Explore opportunities</Link>
+              <a href="mailto:careers@rolemino.com" className="inline-flex items-center justify-center px-6 py-3 min-h-[44px] rounded-[10px] border border-default bg-surface">Contact Rolemino</a>
+            </div>
+          </div>
+        </main>
       </div>
     );
   }
 
-  return (
-    <div className="pt-20 pb-12 min-h-screen bg-canvas">
-      <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h1 className="text-xl lg:text-3xl font-bold mb-6 text-primary">Upload Documents</h1>
-        <p className="text-secondary mb-4">
-          Please upload the required documents for your application to{" "}
-          {jobTitle}.
-        </p>
-        <form
-          onSubmit={handleSubmit}
-          className="bg-surface p-6 rounded-lg shadow-md border border-default space-y-6"
-        >
-          <div className="space-y-4">
-            <h2 className="text-xl font-semibold">
-              Government-Issued ID (Required)
-            </h2>
-            <p className="text-xs text-secondary">
-              Upload front and back of your driver’s license or national ID card
-              (PDF, PNG, JPEG, or JPG, max 5MB each).
+  if (showSuccess) {
+    return (
+      <div className="pt-16 bg-canvas min-h-screen">
+        <main id="main-content" className="max-w-[720px] mx-auto px-4 sm:px-6 py-8">
+          <div className="bg-surface border border-default rounded-[12px] p-6 sm:p-8">
+            <div className="w-10 h-10 rounded-full bg-success border border-success flex items-center justify-center mb-4" aria-hidden="true">
+              <span className="text-success text-lg">✓</span>
+            </div>
+            <h1 className="text-[22px] font-semibold text-primary">Your documents have been received.</h1>
+            <p className="mt-3 text-[14px] leading-[1.7] text-secondary">Rolemino will continue the qualification process and contact you if additional information or action is required.</p>
+            <p className="mt-3 text-[13px] leading-[1.6] text-secondary bg-subtle border border-default rounded-[10px] px-4 py-3">
+              Document submission does not guarantee final project selection. The project owner makes the final participation decision.
             </p>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              {renderFileInput("Front of ID", idFront, setIdFront, "idFront")}
-              {renderFileInput("Back of ID", idBack, setIdBack, "idBack")}
+            {reference && (
+              <div className="mt-5 bg-subtle border border-default rounded-[10px] px-4 py-3">
+                <p className="text-[12px] font-medium text-strong-secondary">Application reference</p>
+                <p className="text-[14px] font-mono font-medium text-primary break-all">{reference}</p>
+              </div>
+            )}
+            <div className="mt-5 space-y-2 text-[13px] leading-[1.6] text-secondary">
+              <p>Official contributor communication is sent through <a href="mailto:careers@rolemino.com" className="text-brand underline">careers@rolemino.com</a>.</p>
+              <p>Rolemino does not request document-verification or placement fees.</p>
+            </div>
+            <div className="mt-6 flex flex-col sm:flex-row gap-3">
+              <Link to="/jobs" className="inline-flex items-center justify-center px-6 py-3 min-h-[44px] rounded-[10px] bg-[var(--color-action-primary)] text-inverse">Explore opportunities</Link>
+              <Link to="/" className="inline-flex items-center justify-center px-6 py-3 min-h-[44px] rounded-[10px] border border-default bg-surface text-primary">Return to homepage</Link>
             </div>
           </div>
+        </main>
+      </div>
+    );
+  }
 
-          <div>
-            <label className="block text-strong-secondary text-sm font-medium mb-1">
+  const DocumentField = ({
+    id,
+    label,
+    required,
+    file,
+    error,
+    onSelect,
+    onRemove,
+    url,
+  }: {
+    id: string;
+    label: string;
+    required?: boolean;
+    file: File | null;
+    error?: string;
+    onSelect: (f: File | null) => void;
+    onRemove: () => void;
+    url?: string;
+  }) => (
+    <div>
+      <p className="block text-[13px] font-medium text-strong-secondary mb-1.5">
+        {label} {required && <span className="text-danger">*</span>}
+      </p>
+      {!file ? (
+        <label
+          htmlFor={id}
+          className={`flex flex-col items-center justify-center w-full py-8 px-4 border-2 border-dashed rounded-[12px] cursor-pointer transition-colors focus-within:ring-2 focus-within:ring-[var(--color-focus-ring)] ${error ? 'border-danger bg-danger/5' : 'border-default bg-subtle hover:bg-surface hover:border-brand'}`}
+        >
+          <span className="w-10 h-10 rounded-full bg-surface border border-default flex items-center justify-center mb-2" aria-hidden="true">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" className="text-muted">
+              <path d="M12 16V4M12 4l-4 4M12 4l4 4M4 14v4a2 2 0 002 2h12a2 2 0 002-2v-4" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          </span>
+          <span className="text-[13px] font-medium text-primary">Choose file</span>
+          <span className="text-[12px] text-secondary">Drop file or click to browse</span>
+          <input
+            id={id}
+            type="file"
+            accept="application/pdf,image/png,image/jpeg,image/jpg"
+            className="sr-only"
+            aria-describedby={`${id}-help ${error ? `${id}-error` : ''}`}
+            aria-invalid={error ? true : undefined}
+            onChange={(e) => {
+              const f = e.target.files?.[0] ?? null;
+              onSelect(f);
+              e.currentTarget.value = '';
+            }}
+          />
+        </label>
+      ) : (
+        <div className="border border-default rounded-[10px] overflow-hidden bg-surface">
+          {url ? (
+            <img src={url} alt={`${label} preview`} className="w-full h-48 object-contain bg-subtle" />
+          ) : (
+            <div className="flex flex-col items-center justify-center py-10 bg-subtle">
+              <span className="w-12 h-12 rounded-full bg-surface border border-default flex items-center justify-center" aria-hidden="true">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" className="text-muted">
+                  <path d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              </span>
+              <span className="mt-2 text-[12px] text-secondary">PDF document</span>
+            </div>
+          )}
+          <div className="flex items-center justify-between gap-3 px-4 py-3 border-t border-default">
+            <div className="min-w-0">
+              <p className="text-[13px] font-medium text-primary truncate" aria-live="polite">{file.name}</p>
+              <p className="text-[12px] text-secondary">{(file.size / 1024 / 1024).toFixed(2)} MB · {file.type || 'unknown type'}</p>
+            </div>
+            <div className="flex items-center gap-2 shrink-0">
+              <label htmlFor={id} className="inline-flex items-center justify-center px-3 py-1.5 min-h-[36px] rounded-[8px] border border-default bg-surface text-[12px] font-medium hover:bg-subtle cursor-pointer">
+                Replace
+                <input
+                  id={id}
+                  type="file"
+                  accept="application/pdf,image/png,image/jpeg,image/jpg"
+                  className="sr-only"
+                  onChange={(e) => {
+                    const f = e.target.files?.[0] ?? null;
+                    onSelect(f);
+                    e.currentTarget.value = '';
+                  }}
+                />
+              </label>
+              <button type="button" onClick={onRemove} aria-label={`Remove ${label}`} className="w-9 h-9 inline-flex items-center justify-center rounded-[8px] border border-default bg-surface hover:bg-danger hover:text-inverse hover:border-danger">
+                ×
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+      <p id={`${id}-help`} className="mt-1.5 text-[12px] leading-[1.5] text-secondary">
+        Accepted formats: {ALLOWED_LABEL}. Maximum size: 5 MB per file.
+      </p>
+      {error && (
+        <p id={`${id}-error`} className="mt-1.5 text-[12px] text-danger" role="alert">
+          {error}
+        </p>
+      )}
+    </div>
+  );
+
+  return (
+    <div className="pt-16 bg-canvas min-h-screen">
+      <main id="main-content" className="max-w-[720px] mx-auto px-4 sm:px-6 py-6 sm:py-8">
+        <nav aria-label="Breadcrumb" className="mb-4 text-[13px] text-secondary">
+          <span>Qualification</span> <span aria-hidden="true" className="text-muted">/</span> <span className="font-medium text-primary">Documents</span>
+        </nav>
+
+        <div className="mb-6">
+          <p className="text-[11px] font-semibold tracking-[0.14em] uppercase text-brand flex items-center gap-2">
+            <span aria-hidden="true" className="h-px w-6 bg-decorative" /> Qualification documents
+          </p>
+          <h1 className="mt-2 text-[26px] sm:text-[30px] font-bold tracking-tight text-primary">Submit your verification documents</h1>
+          <p className="mt-2 text-[14px] leading-[1.6] text-secondary">
+            {jobTitle ? (
+              <>Your application for <span className="font-medium text-primary">{jobTitle}</span> has progressed to the next qualification stage. Submit the requested documents so Rolemino can complete the required verification.</>
+            ) : (
+              <>Your application has progressed to the next qualification stage. Submit the requested documents so Rolemino can complete the required verification.</>
+            )}
+          </p>
+          <p className="mt-3 text-[13px] leading-[1.6] text-secondary bg-subtle border border-default rounded-[10px] px-4 py-3">
+            These documents are requested only after initial application review and are used for qualification, identity or location verification as applicable.
+          </p>
+          <div className="mt-3 flex flex-wrap gap-2 text-[12px] text-secondary">
+            <span className="inline-flex items-center gap-1.5"><span className="w-1.5 h-1.5 rounded-full bg-decorative" aria-hidden="true" /> Only accessed via instructions from <a href="mailto:careers@rolemino.com" className="text-brand underline">careers@rolemino.com</a></span>
+            <span className="inline-flex items-center gap-1.5"><span className="w-1.5 h-1.5 rounded-full bg-decorative" aria-hidden="true" /> No verification or placement fees</span>
+          </div>
+        </div>
+
+        <div ref={errorSummaryRef} tabIndex={-1} className="outline-none">
+          {formLevelError && <FormErrorSummary errors={[formLevelError]} id="doc-error-summary" />}
+        </div>
+
+        <form onSubmit={handleSubmit} noValidate className="mt-6 space-y-6">
+          <FormSection title="Government-issued ID" description="Upload a government-issued identity document for verification.">
+            <div className="grid gap-6">
+              <DocumentField
+                id="idFront-input"
+                label="Front of ID"
+                required
+                file={idFront}
+                error={frontError}
+                onSelect={(f) => handleSelect(f, setIdFront, setFrontError, true)}
+                onRemove={() => { setIdFront(null); setFrontError(undefined); }}
+                url={frontUrl}
+              />
+              <DocumentField
+                id="idBack-input"
+                label="Back of ID (if applicable)"
+                file={idBack}
+                error={backError}
+                onSelect={(f) => handleSelect(f, setIdBack, setBackError, false)}
+                onRemove={() => { setIdBack(null); setBackError(undefined); }}
+                url={backUrl}
+              />
+            </div>
+            <InlineNotice>Front of ID is required. Back is optional where your document has two sides. Files are not stored in the browser and are only sent when you submit.</InlineNotice>
+          </FormSection>
+
+          <div className="bg-surface border border-default rounded-[12px] p-5">
+            <label className="flex gap-3">
               <input
+                id="privacy-checkbox"
                 type="checkbox"
                 checked={isPrivacyAgreed}
-                onChange={(e) => setIsPrivacyAgreed(e.target.checked)}
-                disabled={!termsScrolled}
-                className="mr-2 leading-tight accent-[var(--color-action-primary)] text-xs md:text-sm"
+                onChange={(e) => { setIsPrivacyAgreed(e.target.checked); setPrivacyError(undefined); setFormLevelError(undefined); }}
+                aria-describedby={privacyError ? 'privacy-error' : undefined}
+                aria-invalid={privacyError ? true : undefined}
+                className="mt-1 accent-[var(--color-action-primary)] w-4 h-4 shrink-0"
               />
-              I have read the Terms and Conditions{" "}
-              <span className="text-danger">*</span>
-              <button
-                type="button"
-                onClick={() => setIsTermsModalOpen(true)}
-                className="text-brand cursor-pointer underline hover:text-[var(--color-action-link-hover)] ml-1"
-              >
-                (View Terms)
-              </button>
+              <span className="text-[13px] leading-[1.5] text-strong-secondary">
+                I have read and accept the Document Submission Terms and Conditions. <span className="text-danger">*</span>
+                <button type="button" onClick={() => setIsTermsOpen(true)} className="ml-1 text-brand underline hover:text-[var(--color-action-link-hover)]">View terms</button>
+              </span>
             </label>
-            {!termsScrolled && (
-              <p className="text-xs md:text-sm text-danger mt-1">
-                You must read and scroll to the bottom of the terms to enable
-                this checkbox.
-              </p>
-            )}
+            {privacyError && <p id="privacy-error" className="mt-2 text-[12px] text-danger" role="alert">{privacyError}</p>}
+            <p className="mt-3 text-[12px] leading-[1.5] text-secondary">Rolemino’s Privacy Policy and full website Terms will be published in a later legal-content phase. Official communication is sent through careers@rolemino.com.</p>
           </div>
 
-          <Button
-            type="submit"
-            variant="secondary"
-            className="w-full sm:w-auto"
-            disabled={isSubmitting || !isPrivacyAgreed}
-          >
-            {isSubmitting ? "Uploading..." : "Upload Documents"}
-          </Button>
+          <div className="flex flex-wrap gap-3">
+            <Button type="submit" variant="primary" disabled={isSubmitting} className="min-w-[160px]">
+              {isSubmitting ? 'Submitting documents…' : 'Submit documents'}
+            </Button>
+            <Link to="/jobs" className="inline-flex items-center justify-center px-5 py-2.5 min-h-[44px] rounded-[10px] border border-default bg-surface text-[14px] font-medium text-primary hover:bg-subtle">
+              Explore opportunities
+            </Link>
+          </div>
         </form>
 
-        {isTermsModalOpen && (
-          <div className="fixed inset-0 bg-[var(--color-overlay)] backdrop-blur-sm flex items-center justify-center z-40">
-            <div
-              ref={termsRef}
-              className="bg-surface p-6 rounded-lg shadow-lg border border-default w-[96%] mx-auto md:mx-0 md:w-full max-w-2xl max-h-[80vh] overflow-y-auto animate-slideIn"
-              tabIndex={0}
-              role="dialog"
-              aria-labelledby="terms-modal-title"
-              onScroll={handleTermsScroll}
-            >
-              <h2 className="text-lg font-semibold mb-4">
-                This Rolemino Data Consent Form (“Data Consent Form”) contains the
-                following terms and conditions:
-              </h2>
-              <h3 className="font-medium mb-2">
-                Rolemino Identity Verification Requirements
-              </h3>
-              <p className="text-secondary mb-3 text-sm">
-                In accordance with Rolemino's Employee's Standards, and fraud and
-                abuse prevention, you must undergo identity and location
-                verification checks if you would like to be eligible for
-                projects with Rolemino. The identity and location verification
-                process will be completed as a part of the final steps in
-                qualification before you can be onboarded to your first project
-                with Rolemino. If you are successful in the other steps of
-                qualification, you will be provided with the necessary
-                instructions to complete the identity and location verification
-                via email. This information will be retained so that you can
-                more easily be eligible for other projects that require similar
-                identification verifications.
-              </p>
-
-              <h3 className="font-medium mb-2">Processing of Personal Data</h3>
-              <p className="text-secondary mb-3 text-sm">
-                We will need to collect, use, and retain personal data from you,
-                or from another entity you provide your personal data to, in
-                order to: maintain community standards, execute the project
-                requirements; communicate with you, comply with our legal
-                obligations as required by law; and fulfill any other
-                obligations we may have to our customers, vendors, or partners.
-                Examples of this include, but are not limited to, your contact
-                information to be able to contact you, your account information
-                and what projects you worked on for our record-keeping purposes,
-                your demographics information so we may offer you more relevant
-                project opportunities, your payment information so we can pay
-                you any owed amounts, other information for fraud
-                detection/prevention purposes such as biometrics collection
-                (e.g. facial recognition) for identify verification purposes.
-                You understand, acknowledge, and agree to processing and storing
-                of your personal data by Rolemino and its affiliates and vendors
-                as necessary to exercise its rights and fulfill its obligations
-                under this Agreement and your data may be transferred by such
-                parties to the United States, Canada, the United Kingdom, the
-                European Union, Australia, Philippines, and other countries as
-                stated to you, but only for the purposes described herein. You
-                further, understand, acknowledge, and agree that some of your
-                personal data collected and processed is necessary to satisfy a
-                contract to which you are a party to, and such processing is not
-                based on consent and is not affected by your withdrawal of
-                consent. However, certain special categories or “sensitive”
-                personal data, such as data concerning health, biometric data,
-                racial or ethnic origin, religious affiliation, which may be
-                part of fraud prevention and project qualification requirements,
-                may require your consent before we can process the information.
-              </p>
-
-              <h3 className="font-medium mb-2">
-                Withdrawal of Consent and Right to Access Personal Data
-              </h3>
-              <p className="text-secondary mb-3 text-sm">
-                If applicable law allows you such rights, you may withdraw your
-                participation by contacting Rolemino at the following email:
-                careers@rolemino.com.
-              </p>
-
-              <p className="text-secondary mb-3 text-sm">
-                Please note that withdraw of your consent herein will prevent
-                you from performing further work on existing projects and
-                participating in any new or additional projects. After your
-                withdrawal, Rolemino and its affiliates, customers, and vendors may
-                continue to retain your information but only in accordance with
-                their respective legal obligations and/or legitimate interests,
-                such as your account information, what projects you participated
-                in for account management and record-keeping purposes, and data
-                collected necessary to maintain fraud prevention.
-              </p>
-              <button
-                onClick={() => setIsTermsModalOpen(false)}
-                className="mt-4 w-full bg-[var(--color-action-success)] text-inverse cursor-pointer p-2 rounded-md hover:bg-[var(--color-action-success-hover)] focus:ring-2 focus:ring-[var(--color-focus-ring)] focus:outline-none"
-                aria-label="Close modal"
-              >
-                Done
-              </button>
-            </div>
-          </div>
-        )}
-      </div>
+        <TermsDialog open={isTermsOpen} onClose={() => setIsTermsOpen(false)} title="Document Submission Terms and Conditions">
+          <h3 className="font-semibold text-primary">Rolemino Identity Verification Requirements</h3>
+          <p>
+            In accordance with Rolemino&apos;s Employee&apos;s Standards, and fraud and abuse prevention, you must undergo identity and location verification checks if you would like to be eligible for projects with Rolemino. The verification is completed as part of the final qualification steps before onboarding to your first project. Instructions are sent by email if you qualify. This information is retained to facilitate eligibility for other projects requiring similar verification.
+          </p>
+          <h3 className="font-semibold text-primary">Processing of Personal Data</h3>
+          <p>
+            We will need to collect, use, and retain personal data from you, or from another entity you provide your personal data to, in order to: maintain community standards, execute the project requirements; communicate with you, comply with legal obligations, and fulfill obligations to customers, vendors, or partners. This includes contact information, account and project history, demographics for relevant opportunities, payment information, and fraud detection data such as biometrics for identity verification. You agree to processing and transfer to the United States, Canada, the United Kingdom, the European Union, Australia, Philippines, and other countries for described purposes. Certain sensitive data may require your explicit consent.
+          </p>
+          <h3 className="font-semibold text-primary">Withdrawal of Consent and Right to Access Personal Data</h3>
+          <p>If applicable law allows, you may withdraw your participation by contacting Rolemino at careers@rolemino.com. Withdrawal prevents further work on existing and new projects, while legally required information may be retained for record-keeping and fraud prevention.</p>
+        </TermsDialog>
+      </main>
     </div>
   );
 }
