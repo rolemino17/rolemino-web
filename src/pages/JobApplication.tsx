@@ -142,15 +142,10 @@ export function JobApplication() {
     },
   });
 
-  // Redirect to /jobs after feedback modal is shown
-  useEffect(() => {
-    if (isFeedbackModalOpen) {
-      const timer = setTimeout(() => {
-        navigate("/jobs");
-      }, 5000); // Redirect after 3 seconds
-      return () => clearTimeout(timer);
-    }
-  }, [isFeedbackModalOpen, navigate]);
+  const handleFeedbackClose = () => {
+    setIsFeedbackModalOpen(false);
+    navigate("/jobs");
+  };
 
   const handleChange = (
     e: React.ChangeEvent<
@@ -605,10 +600,10 @@ export function JobApplication() {
 
         <FeedbackModal
           isOpen={isFeedbackModalOpen}
-          onClose={() => setIsFeedbackModalOpen(false)}
-          message="Application received successfully. You'll be redirected to the job explore page. Check your emails for further instructions."
+          onClose={handleFeedbackClose}
+          message="Application received successfully. You'll be redirected to the opportunities page. Check your emails for further instructions."
           type="success"
-          autoCloseDuration={5000}
+          autoCloseDuration={3500}
         />
 
         {isTermsModalOpen && (
