@@ -583,7 +583,6 @@ export function JobApplication() {
                 onRemove={() => { setResumeFile(null); setResumeError(undefined); }}
                 accept="application/pdf"
               />
-              <InlineNotice>Files are not saved if you refresh. You will need to select your resume again.</InlineNotice>
             </FormSection>
           )}
 
