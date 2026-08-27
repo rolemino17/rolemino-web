@@ -62,7 +62,6 @@ export function DocumentUpload() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formLevelError, setFormLevelError] = useState<string | undefined>(undefined);
   const [showSuccess, setShowSuccess] = useState(false);
-  const [reference, setReference] = useState<string | undefined>(undefined);
   const errorSummaryRef = useRef<HTMLDivElement>(null);
   const frontUrl = useObjectUrl(idFront);
   const backUrl = useObjectUrl(idBack);
@@ -122,9 +121,7 @@ export function DocumentUpload() {
       const docs = [idFront, idBack].filter((f): f is File => f !== null);
       const fd = new FormData();
       docs.forEach((f) => fd.append('documents', f));
-      const res = await uploadDocuments(appId, token, fd);
-      const ref = res?.id ?? res?.applicationId ?? res?.reference ?? String(appId);
-      setReference(ref ? String(ref) : undefined);
+      await uploadDocuments(appId, token, fd);
       setShowSuccess(true);
       window.scrollTo(0, 0);
       toast.success('Documents received. Rolemino will continue the qualification process.');
@@ -168,19 +165,7 @@ export function DocumentUpload() {
             </div>
             <h1 className="text-[22px] font-semibold text-primary">Your documents have been received.</h1>
             <p className="mt-3 text-[14px] leading-[1.7] text-secondary">Rolemino will continue the qualification process and contact you if additional information or action is required.</p>
-            <p className="mt-3 text-[13px] leading-[1.6] text-secondary bg-subtle border border-default rounded-[10px] px-4 py-3">
-              Document submission does not guarantee final project selection. The project owner makes the final participation decision.
-            </p>
-            {reference && (
-              <div className="mt-5 bg-subtle border border-default rounded-[10px] px-4 py-3">
-                <p className="text-[12px] font-medium text-strong-secondary">Application reference</p>
-                <p className="text-[14px] font-mono font-medium text-primary break-all">{reference}</p>
-              </div>
-            )}
-            <div className="mt-5 space-y-2 text-[13px] leading-[1.6] text-secondary">
-              <p>Official contributor communication is sent through <a href="mailto:careers@rolemino.com" className="text-brand underline">careers@rolemino.com</a>.</p>
-              <p>Rolemino does not request document-verification or placement fees.</p>
-            </div>
+
             <div className="mt-6 flex flex-col sm:flex-row gap-3">
               <Link to="/jobs" className="inline-flex items-center justify-center px-6 py-3 min-h-[44px] rounded-[10px] bg-[var(--color-action-primary)] text-inverse">Explore opportunities</Link>
               <Link to="/" className="inline-flex items-center justify-center px-6 py-3 min-h-[44px] rounded-[10px] border border-default bg-surface text-primary">Return to homepage</Link>
@@ -314,10 +299,7 @@ export function DocumentUpload() {
           <p className="mt-3 text-[13px] leading-[1.6] text-secondary bg-subtle border border-default rounded-[10px] px-4 py-3">
             These documents are requested only after initial application review and are used for qualification, identity or location verification as applicable.
           </p>
-          <div className="mt-3 flex flex-wrap gap-2 text-[12px] text-secondary">
-            <span className="inline-flex items-center gap-1.5"><span className="w-1.5 h-1.5 rounded-full bg-decorative" aria-hidden="true" /> Only accessed via instructions from <a href="mailto:careers@rolemino.com" className="text-brand underline">careers@rolemino.com</a></span>
-            <span className="inline-flex items-center gap-1.5"><span className="w-1.5 h-1.5 rounded-full bg-decorative" aria-hidden="true" /> No verification or placement fees</span>
-          </div>
+          
         </div>
 
         <div ref={errorSummaryRef} tabIndex={-1} className="outline-none">
@@ -367,7 +349,6 @@ export function DocumentUpload() {
               </span>
             </label>
             {privacyError && <p id="privacy-error" className="mt-2 text-[12px] text-danger" role="alert">{privacyError}</p>}
-            <p className="mt-3 text-[12px] leading-[1.5] text-secondary">Rolemino’s Privacy Policy and full website Terms will be published in a later legal-content phase. Official communication is sent through careers@rolemino.com.</p>
           </div>
 
           <div className="flex flex-wrap gap-3">
