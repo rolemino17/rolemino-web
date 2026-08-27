@@ -87,10 +87,9 @@ export function Navbar() {
             to="/"
             onClick={closeMenu}
             aria-label="Rolemino home"
-            className="flex items-center gap-2 text-[22px] font-bold tracking-tight text-brand focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-focus-ring)] rounded-sm"
+            className="flex items-center text-[22px] font-bold tracking-tight text-brand focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-focus-ring)] rounded-sm"
           >
             Rolemino
-            <span className="hidden sm:inline text-[10px] font-medium tracking-[0.14em] uppercase text-secondary border border-default rounded-full px-2 py-0.5">Canada</span>
           </Link>
 
           {/* Desktop nav */}

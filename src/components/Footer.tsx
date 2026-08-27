@@ -8,10 +8,7 @@ export function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-[1.2fr_0.8fr_0.9fr] gap-10 lg:gap-12">
           {/* Brand */}
           <div>
-            <div className="flex items-baseline gap-2">
-              <span className="text-[22px] font-bold tracking-tight text-inverse">Rolemino</span>
-              <span className="text-[11px] font-medium tracking-[0.14em] uppercase text-inverse-secondary">Canada</span>
-            </div>
+            <span className="text-[22px] font-bold tracking-tight text-inverse">Rolemino</span>
             <p className="mt-3 text-[13px] leading-[1.6] text-inverse-secondary max-w-[36ch]">
               Rolemino connects qualified contributors with professional project opportunities.
             </p>
