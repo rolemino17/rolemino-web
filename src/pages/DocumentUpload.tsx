@@ -164,7 +164,7 @@ export function DocumentUpload() {
               <span className="text-success text-lg">✓</span>
             </div>
             <h1 className="text-[22px] font-semibold text-primary">Your documents have been received.</h1>
-            <p className="mt-3 text-[14px] leading-[1.7] text-secondary">Rolemino will continue the qualification process and contact you if additional information or action is required.</p>
+            <p className="mt-3 text-[14px] leading-[1.7] text-secondary">We will continue the qualification process and contact you if additional information or action is required.</p>
 
             <div className="mt-6 flex flex-col sm:flex-row gap-3">
               <Link to="/jobs" className="inline-flex items-center justify-center px-6 py-3 min-h-[44px] rounded-[10px] bg-[var(--color-action-primary)] text-inverse">Explore opportunities</Link>

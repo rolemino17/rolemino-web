@@ -425,7 +425,7 @@ export function JobApplication() {
             </div>
             <h1 className="text-[22px] font-semibold text-primary">Your application has been received.</h1>
             <p className="mt-3 text-[14px] leading-[1.7] text-secondary">
-              Rolemino will review your information against the opportunity requirements. If your application qualifies for the next stage, Rolemino will contact you by email.
+              We will review your information against the opportunity requirements. If your application qualifies for the next stage, we will contact you by email.
             </p>
             <div className="mt-5 space-y-3 text-[13px] leading-[1.6] text-secondary">
               <p>Official contributor communication is sent through <a href="mailto:careers@rolemino.com" className="text-brand underline">careers@rolemino.com</a>.</p>
@@ -458,7 +458,7 @@ export function JobApplication() {
             <span aria-hidden="true" className="h-px w-6 bg-decorative" /> Opportunity application
           </p>
           <h1 className="mt-2 text-[26px] sm:text-[30px] font-bold tracking-tight text-primary">Apply for {job.title}</h1>
-          <p className="mt-2 text-[14px] leading-[1.6] text-secondary">Tell us about your experience, qualifications and availability. Rolemino will review your application against the opportunity requirements.</p>
+          <p className="mt-2 text-[14px] leading-[1.6] text-secondary">Tell us about your experience, qualifications and availability. We will review your application against the opportunity requirements.</p>
         </div>
 
         <div className="mb-6">
@@ -471,7 +471,7 @@ export function JobApplication() {
 
         <form onSubmit={handleSubmit} noValidate className="mt-6 space-y-6" onKeyDown={(e) => { if (e.key === 'Enter' && (e.target as HTMLElement).tagName !== 'TEXTAREA' && currentStep !== 4) e.preventDefault(); }}>
           {currentStep === 0 && (
-            <FormSection title="Personal information" description="How Rolemino can contact you about this opportunity.">
+            <FormSection title="Personal information" description="How we can contact you about this opportunity.">
               <div className="grid sm:grid-cols-2 gap-4">
                 <FormField label="First name" htmlFor="firstName" required error={errors.firstName}>
                   <TextInput id="firstName" name="firstName" value={formData.firstName ?? ''} onChange={handleChange} autoComplete="given-name" aria-describedby={errors.firstName ? 'firstName-error' : undefined} error={!!errors.firstName} required />
@@ -536,7 +536,7 @@ export function JobApplication() {
           )}
 
           {currentStep === 2 && (
-            <FormSection title="Experience and qualifications" description="Help Rolemino assess your fit for this project.">
+            <FormSection title="Experience and qualifications" description="Help us assess your fit for this project.">
               <FormField label="Highest education level" htmlFor="highestEducationLevel" required error={errors.highestEducationLevel}>
                 <SelectInput id="highestEducationLevel" name="highestEducationLevel" value={formData.highestEducationLevel ?? ''} onChange={handleChange} error={!!errors.highestEducationLevel} required>
                   <option value="" disabled>Select education level</option>
@@ -568,7 +568,7 @@ export function JobApplication() {
           )}
 
           {currentStep === 3 && (
-            <FormSection title="Availability and resume" description="Your availability and a current resume help Rolemino evaluate your application.">
+            <FormSection title="Availability and resume" description="Your availability and a current resume help us evaluate your application.">
               <FormField label="Available hours per week" htmlFor="availableHours" required error={errors.availableHours}>
                 <TextInput id="availableHours" name="availableHours" type="number" inputMode="numeric" min={1} max={168} value={formData.availableHours ?? ''} onChange={handleChange} error={!!errors.availableHours} required />
               </FormField>
