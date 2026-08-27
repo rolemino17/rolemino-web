@@ -375,9 +375,6 @@ export function Landing() {
                   </li>
                 ))}
               </ul>
-              <p className="mt-6 text-[12px] leading-[1.5] text-secondary border-t border-subtle pt-4">
-                Rolemino does not charge contributors an application or placement fee.
-              </p>
             </div>
           </div>
         </Section>
@@ -405,15 +402,6 @@ export function Landing() {
           <div className="max-w-[760px]">
             <Eyebrow>Support</Eyebrow>
             <h2 className="mt-3 text-[28px] sm:text-[32px] font-semibold tracking-tight text-primary">Frequently asked questions</h2>
-            <div className="mt-2 bg-brand-subtle border border-default rounded-[10px] px-4 py-3">
-              <p className="text-[13px] leading-[1.6] text-strong-secondary">
-                <span className="font-semibold text-primary">No fees.</span> Contributors are not required to pay an application, registration or placement fee. If anyone requests payment while claiming to represent Rolemino, contact{' '}
-                <a href="mailto:careers@rolemino.com" className="text-brand underline underline-offset-4 hover:text-[var(--color-action-link-hover)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-focus-ring)] rounded-sm">
-                  careers@rolemino.com
-                </a>
-                .
-              </p>
-            </div>
             <div className="mt-8">
               <FAQAccordion items={FAQ_ITEMS} />
             </div>
@@ -427,9 +415,6 @@ export function Landing() {
               <h2 className="text-[24px] sm:text-[28px] font-semibold tracking-tight text-primary">Find your next professional opportunity.</h2>
               <p className="mt-2 text-[14px] sm:text-[15px] leading-[1.6] text-secondary max-w-[58ch]">
                 Explore available projects and apply for opportunities suited to your experience, location and availability.
-              </p>
-              <p className="mt-2 text-[12px] font-medium text-strong-secondary flex items-center gap-2">
-                <span className="w-1.5 h-1.5 rounded-full bg-decorative" aria-hidden="true" /> Applying through Rolemino is free.
               </p>
             </div>
             <div className="flex flex-col sm:flex-row gap-3 shrink-0">
