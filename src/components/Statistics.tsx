@@ -21,11 +21,11 @@ export function Statistics() {
       whileInView={{ opacity: 1 }}
       transition={{ duration: 1 }}
       id='statistics'
-      className="py-20 bg-secondary"
+      className="py-20 bg-subtle"
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
         <h2 className="text-3xl font-bold text-primary mb-4">Join Our Global Community</h2>
-        <p className="text-lg text-gray-800 mb-12">
+        <p className="text-lg text-secondary mb-12">
           From students to professionals, Rolemino connects diverse talent to remote opportunities worldwide.
         </p>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
@@ -35,10 +35,10 @@ export function Statistics() {
               initial={{ y: 20, opacity: 0 }}
               whileInView={{ y: 0, opacity: 1 }}
               transition={{ delay: 0.2 * index }}
-              className="p-6 bg-white rounded-lg shadow-sm"
+              className="p-6 bg-surface rounded-lg shadow-sm border border-default"
             >
               <p className="text-2xl font-bold text-primary">{stat.value}</p>
-              <p className="text-gray-600">{stat.label}</p>
+              <p className="text-secondary">{stat.label}</p>
             </motion.div>
           ))}
         </div>
@@ -47,7 +47,7 @@ export function Statistics() {
             <motion.img key={idx}
               src={avatar}
               alt={`User ${idx + 1}`}
-              className="w-18 h-14 rounded-full border-2 border-white"
+              className="w-18 h-14 rounded-full border-2 border-default"
               initial={{ scale: 0 }}
               whileInView={{ scale: 1 }}
                 transition={{ delay: 0.5 + idx * 0.2 }}

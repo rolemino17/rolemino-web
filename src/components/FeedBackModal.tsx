@@ -30,18 +30,18 @@ export function FeedbackModal({ isOpen, onClose, message, type = 'info', autoClo
 
   if (!isOpen) return null;
 
-  // Dynamic styling based on type
+  // Dynamic styling based on type — semantic functional tokens
   const typeStyles = {
-    success: 'bg-green-50 border-green-500 text-gray-700',
-    error: 'bg-red-50 border-red-500 text-red-700',
-    info: 'bg-blue-50 border-blue-500 text-blue-700',
+    success: 'bg-[var(--color-success-bg)] border-[var(--color-success-border)] text-[var(--color-success-text)]',
+    error: 'bg-[var(--color-danger-bg)] border-[var(--color-danger-border)] text-[var(--color-danger-text)]',
+    info: 'bg-[var(--color-info-bg)] border-[var(--color-info-border)] text-[var(--color-info-text)]',
   };
 
   return (
-    <div className="fixed inset-0 bg-black/30 backdrop-blur-sm flex items-center justify-center z-50">
+    <div className="fixed inset-0 bg-[var(--color-overlay)] backdrop-blur-sm flex items-center justify-center z-50">
       <div
         ref={modalRef}
-        className={`w-full max-w-md p-6 rounded-lg shadow-lg border-l-4 bg-white ${typeStyles[type]} animate-slideIn focus:outline-none`}
+        className={`w-full max-w-md p-6 rounded-lg shadow-lg border-l-4 bg-surface ${typeStyles[type]} animate-slideIn focus:outline-none`}
         tabIndex={-1}
         role="dialog"
         aria-labelledby="feedback-modal-title"
@@ -50,13 +50,6 @@ export function FeedbackModal({ isOpen, onClose, message, type = 'info', autoClo
           {type === 'success' ? 'Success' : type === 'error' ? 'Error' : 'Information'}
         </h2>
         <p className="text-sm">{message}</p>
-        {/* <button
-          onClick={onClose}
-          className="mt-4 w-full bg-gray-200 text-gray-800 p-2 rounded-md hover:bg-gray-300 focus:ring-2 focus:ring-gray-400"
-          aria-label="Close modal"
-        >
-          Close
-        </button> */}
       </div>
     </div>
   );

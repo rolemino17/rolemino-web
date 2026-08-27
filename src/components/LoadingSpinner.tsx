@@ -3,7 +3,7 @@ export function Loading() {
   return (
     <div className="flex items-center justify-center min-h-[200px]">
       <svg
-        className="animate-spin h-8 w-8 text-primary"
+        className="animate-spin h-8 w-8 text-brand"
         xmlns="http://www.w3.org/2000/svg"
         fill="none"
         viewBox="0 0 24 24"

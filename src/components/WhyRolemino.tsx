@@ -16,11 +16,11 @@ export function WhyRolemino() {
       whileInView={{ opacity: 1 }}
       transition={{ duration: 1 }}
       id='why-rolemino'
-      className="py-20 bg-secondary"
+      className="py-20 bg-subtle"
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <h2 className="text-3xl font-bold text-primary text-center mb-4">Why Choose Rolemino?</h2>
-        <p className="text-lg text-gray-800 text-center mb-12">
+        <p className="text-lg text-secondary text-center mb-12">
           Discover the benefits of joining our remote work platform.
         </p>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -30,10 +30,10 @@ export function WhyRolemino() {
               initial={{ y: 20, opacity: 0 }}
               whileInView={{ y: 0, opacity: 1 }}
               transition={{ delay: 0.2 * index }}
-              className="p-6 bg-white rounded-lg shadow-sm text-center"
+              className="p-6 bg-surface rounded-lg shadow-sm border border-default text-center"
             >
-              <h3 className="text-lg font-semibold mb-2">{benefit.title}</h3>
-              <p className="text-gray-600">{benefit.description}</p>
+              <h3 className="text-lg font-semibold mb-2 text-primary">{benefit.title}</h3>
+              <p className="text-secondary">{benefit.description}</p>
             </motion.div>
           ))}
         </div>
