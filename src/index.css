@@ -176,6 +176,7 @@
 
 html {
   font-family: 'Inter', sans-serif;
+  scrollbar-gutter: stable;
 }
 
 body {
@@ -187,4 +188,32 @@ body {
 
 input, button, textarea, select {
   font-family: inherit;
+}
+
+/* Anchor offset for fixed header (64px) + reduced-motion */
+:target,
+[id] {
+  scroll-margin-top: 76px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Ensure visible focus even when not using tailwind ring */
+:focus-visible {
+  outline: 2px solid var(--color-focus-ring);
+  outline-offset: 2px;
+}
+
+/* Better line length default */
+p {
+  overflow-wrap: break-word;
 }
