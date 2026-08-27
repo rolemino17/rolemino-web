@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
+import wordmark from '../assets/logo/rolemino-horizontal-wordmark.png';
 
 type NavItem = {
   label: string;
@@ -87,9 +88,17 @@ export function Navbar() {
             to="/"
             onClick={closeMenu}
             aria-label="Rolemino home"
-            className="flex items-center text-[22px] font-bold tracking-tight text-brand focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-focus-ring)] rounded-sm"
+            className="flex items-center shrink-0 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-focus-ring)] rounded-sm"
           >
-            Rolemino
+            <img
+              src={wordmark}
+              alt="Rolemino"
+              width={1435}
+              height={390}
+              className="h-7 sm:h-8 w-auto object-contain"
+              loading="eager"
+              decoding="sync"
+            />
           </Link>
 
           {/* Desktop nav */}

@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import wordmark from '../assets/logo/rolemino-horizontal-wordmark.png';
 
 export function Footer() {
   const year = new Date().getFullYear();
@@ -8,7 +9,17 @@ export function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-[1.2fr_0.8fr_0.9fr] gap-10 lg:gap-12">
           {/* Brand */}
           <div>
-            <span className="text-[22px] font-bold tracking-tight text-inverse">Rolemino</span>
+            <Link to="/" aria-label="Rolemino home" className="inline-flex focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/50 rounded-sm">
+              <img
+                src={wordmark}
+                alt="Rolemino"
+                width={1435}
+                height={390}
+                className="h-7 w-auto object-contain brightness-0 invert"
+                loading="lazy"
+                decoding="async"
+              />
+            </Link>
             <p className="mt-3 text-[13px] leading-[1.6] text-inverse-secondary max-w-[36ch]">
               Rolemino connects qualified contributors with professional project opportunities.
             </p>
