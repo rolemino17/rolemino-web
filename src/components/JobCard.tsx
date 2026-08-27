@@ -57,8 +57,8 @@ export function JobCard({ job }: { job: Job }) {
       {(country || workType) && (
         <p className="mt-1.5 text-[13px] leading-[1.5] text-secondary flex flex-wrap items-center gap-1.5">
           {country && <span>{country}</span>}
-          {country && workType && <span aria-hidden="true" className="text-muted">·</span>}
-          {workType && <span>{workType}</span>}
+          {country && workType && <span aria-hidden="true" className="text-muted"></span>}
+          
         </p>
       )}
 

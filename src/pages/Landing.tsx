@@ -6,15 +6,6 @@ import { Section, Eyebrow, SectionHeading } from '../components/Section';
 import { Footer } from '../components/Footer';
 import { OpportunityPreviewCard, OpportunityCardSkeleton, EmptyState, ErrorState } from '../components/OpportunityPreviewCard';
 import { FAQAccordion } from '../components/FAQAccordion';
-import heroPlaceholder from '../assets/hero2.jpg';
-
-// Isolated placeholder — replace with licensed image later
-const HERO_IMAGE = {
-  src: heroPlaceholder,
-  alt: 'Abstract architectural interior with soft daylight — temporary placeholder for licensed contributor imagery',
-  width: 1200,
-  height: 900,
-};
 
 const FAQ_ITEMS = [
   {
@@ -90,18 +81,26 @@ export function Landing() {
   return (
     <div className="bg-canvas">
       <main id="main-content" className="pt-16">
-        {/* HERO */}
-        <section id="hero" className="bg-canvas scroll-mt-[68px]">
-          <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10 lg:py-14">
-            <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
-              {/* Copy */}
-              <div className="order-1">
+        {/* HERO — typography-led, no imagery */}
+        <section id="hero" className="bg-canvas scroll-mt-[68px] border-b border-subtle">
+          <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8">
+            {/* Main hero composition */}
+            <div className="grid lg:grid-cols-[1.08fr_0.92fr] gap-8 lg:gap-10 xl:gap-14 py-10 sm:py-12 lg:py-14 xl:py-16 items-start">
+              {/* Left: positioning and conversion */}
+              <div className="min-w-0">
                 <Eyebrow>Professional project opportunities</Eyebrow>
-                <h1 className="mt-3 text-[30px] sm:text-[36px] lg:text-[44px] font-bold tracking-tight leading-[1.05] text-primary max-w-[18ch]">
+                <h1
+                  className="mt-4 font-bold tracking-[-0.03em] text-primary [text-wrap:balance] max-w-[14ch]"
+                  style={{ fontSize: 'clamp(2.75rem, 6vw, 4.75rem)', lineHeight: '0.96' }}
+                >
                   Put your skills to work on projects that matter.
                 </h1>
-                <p className="mt-4 text-[15px] sm:text-[16px] leading-[1.65] text-secondary max-w-[58ch]">
-                  Discover opportunities in language, data, research and digital evaluation. Rolemino reviews applications and connects qualified contributors with project owners around the world.
+                <p
+                  className="mt-5 text-secondary max-w-[58ch] [text-wrap:pretty]"
+                  style={{ fontSize: 'clamp(0.9375rem, 1.2vw, 1.0625rem)', lineHeight: '1.65' }}
+                >
+                  Discover opportunities in language, data, research and digital evaluation. Rolemino reviews applications and connects qualified
+                  contributors with project owners worldwide.
                 </p>
                 <div className="mt-7 flex flex-col sm:flex-row gap-3">
                   <Link
@@ -121,40 +120,77 @@ export function Landing() {
                     How it works
                   </a>
                 </div>
-                <div className="mt-4 flex flex-col gap-1.5">
-                  <p className="inline-flex items-center gap-2 text-[13px] font-medium text-strong-secondary">
-                    <span aria-hidden="true" className="w-1.5 h-1.5 rounded-full bg-decorative shrink-0" />
-                    No application or placement fees.
-                  </p>
-                  <p className="text-[13px] leading-[1.5] text-secondary max-w-[62ch]">
-                    Opportunities for language specialists, researchers, evaluators, data professionals and subject-matter experts.
-                  </p>
-                </div>
+                
               </div>
 
-              {/* Image */}
-              <div className="order-2">
-                <div className="relative overflow-hidden rounded-[14px] border border-default bg-subtle">
-                  <div className="aspect-[4/3] lg:aspect-[4/3.2] relative">
-                    <img
-                      src={HERO_IMAGE.src}
-                      alt={HERO_IMAGE.alt}
-                      width={HERO_IMAGE.width}
-                      height={HERO_IMAGE.height}
-                      className="absolute inset-0 w-full h-full object-cover"
-                      loading="eager"
-                      decoding="async"
-                      sizes="(max-width: 1024px) 100vw, 560px"
-                    />
-                    {/* subtle brass rule overlay for premium detail */}
-                    <div className="absolute bottom-0 left-0 right-0 h-px bg-[var(--color-decorative-accent)] opacity-60" aria-hidden="true" />
+              {/* Right: structured opportunity pathway */}
+              <div className="min-w-0 lg:pt-1">
+                <div className="bg-surface border border-default rounded-[14px] overflow-hidden">
+                  <div className="px-6 sm:px-7 pt-6 sm:pt-7 pb-2">
+                    <h2 id="how-opportunities-work-title" className="text-[11px] font-semibold tracking-[0.14em] uppercase text-brand flex items-center gap-2">
+                      <span aria-hidden="true" className="h-px w-6 bg-decorative shrink-0" />
+                      How opportunities work
+                    </h2>
                   </div>
-                  <div className="absolute top-3 left-3 bg-surface/90 backdrop-blur-sm border border-default rounded-full px-3 py-1.5 flex items-center gap-2 shadow-sm">
-                    <span className="w-2 h-2 rounded-full bg-success border border-success" aria-hidden="true" />
-                    <span className="text-[11px] font-medium text-strong-secondary tracking-wide">Verified project-owner pipeline</span>
-                  </div>
+
+                  <ol className="px-6 sm:px-7" aria-labelledby="how-opportunities-work-title">
+                    <li className="py-5 flex gap-4 sm:gap-5">
+                      <span
+                        aria-hidden="true"
+                        className="shrink-0 text-[12px] font-semibold tracking-[0.08em] text-decorative leading-none pt-1"
+                      >
+                        01
+                      </span>
+                      <div className="min-w-0 flex-1">
+                        <h3 className="text-[14px] font-semibold text-primary leading-tight">Discover</h3>
+                        <p className="mt-1 text-[13px] leading-[1.6] text-secondary">
+                          Explore active professional opportunities matched to different skills and domains.
+                        </p>
+                      </div>
+                    </li>
+                    <li className="border-t border-subtle py-5 flex gap-4 sm:gap-5">
+                      <span aria-hidden="true" className="shrink-0 text-[12px] font-semibold tracking-[0.08em] text-decorative leading-none pt-1">
+                        02
+                      </span>
+                      <div className="min-w-0 flex-1">
+                        <h3 className="text-[14px] font-semibold text-primary leading-tight">Apply</h3>
+                        <p className="mt-1 text-[13px] leading-[1.6] text-secondary">Submit your application and required information at no cost.</p>
+                      </div>
+                    </li>
+                    <li className="border-t border-subtle py-5 flex gap-4 sm:gap-5">
+                      <span aria-hidden="true" className="shrink-0 text-[12px] font-semibold tracking-[0.08em] text-decorative leading-none pt-1">
+                        03
+                      </span>
+                      <div className="min-w-0 flex-1">
+                        <h3 className="text-[14px] font-semibold text-primary leading-tight">Qualify</h3>
+                        <p className="mt-1 text-[13px] leading-[1.6] text-secondary">
+                          Rolemino reviews applications and contacts qualified candidates about the next step.
+                        </p>
+                      </div>
+                    </li>
+                  </ol>
+
+                  
                 </div>
-                <p className="mt-2 text-[11px] text-muted">Temporary placeholder image — licensed imagery forthcoming.</p>
+
+              </div>
+            </div>
+
+            {/* Credibility rail — integrated, not floating cards */}
+            <div className="border-t border-subtle">
+              <div className="grid grid-cols-1 sm:grid-cols-3">
+                <div className="flex flex-row sm:flex-col lg:flex-row items-baseline sm:items-start lg:items-baseline gap-3 sm:gap-1 lg:gap-3 py-5 sm:py-6 border-b sm:border-b-0 sm:border-r border-subtle pr-0 sm:pr-6 last:border-0 last:pr-0">
+                  <p className="text-[22px] sm:text-[24px] lg:text-[26px] font-bold tracking-tight text-primary leading-none shrink-0">$100+/hr</p>
+                  <p className="text-[11px] font-medium tracking-[0.08em] uppercase text-secondary leading-tight">Top hourly pay</p>
+                </div>
+                <div className="flex flex-row sm:flex-col lg:flex-row items-baseline sm:items-start lg:items-baseline gap-3 sm:gap-1 lg:gap-3 py-5 sm:py-6 border-b sm:border-b-0 sm:border-r border-subtle sm:px-6 last:border-0">
+                  <p className="text-[22px] sm:text-[24px] lg:text-[26px] font-bold tracking-tight text-primary leading-none shrink-0">20,000+</p>
+                  <p className="text-[11px] font-medium tracking-[0.08em] uppercase text-secondary leading-tight">Contributors paid</p>
+                </div>
+                <div className="flex flex-row sm:flex-col lg:flex-row items-baseline sm:items-start lg:items-baseline gap-3 sm:gap-1 lg:gap-3 py-5 sm:py-6 sm:pl-6">
+                  <p className="text-[22px] sm:text-[24px] lg:text-[26px] font-bold tracking-tight text-primary leading-none shrink-0">50+</p>
+                  <p className="text-[11px] font-medium tracking-[0.08em] uppercase text-secondary leading-tight">Countries represented</p>
+                </div>
               </div>
             </div>
           </div>
@@ -181,35 +217,6 @@ export function Landing() {
               <div className="w-8 h-px bg-decorative mb-4" aria-hidden="true" />
               <h3 className="text-[14px] font-semibold text-primary">Continued coordination</h3>
               <p className="mt-2 text-[13px] leading-[1.65] text-secondary">Rolemino tracks contributor progress through qualification, project-owner review and participation.</p>
-            </div>
-          </div>
-        </Section>
-
-        {/* VERIFIED SCALE */}
-        <Section variant="canvas" className="border-b border-subtle">
-          <div className="grid lg:grid-cols-[1.1fr_0.9fr] gap-8 lg:gap-10 items-start">
-            <div className="grid grid-cols-3 gap-4 sm:gap-6">
-              <div className="text-center sm:text-left border-r border-default pr-4 sm:pr-6 last:border-0">
-                <p className="text-[22px] sm:text-[28px] lg:text-[30px] font-bold tracking-tight text-primary leading-none">$100+/hr</p>
-                <p className="mt-2 text-[11px] sm:text-[12px] font-medium tracking-[0.08em] uppercase text-secondary">Top hourly rate</p>
-              </div>
-              <div className="text-center sm:text-left border-r border-default pr-4 sm:pr-6 last:border-0">
-                <p className="text-[22px] sm:text-[28px] lg:text-[30px] font-bold tracking-tight text-primary leading-none">20,000+</p>
-                <p className="mt-2 text-[11px] sm:text-[12px] font-medium tracking-[0.08em] uppercase text-secondary">Contributors paid</p>
-              </div>
-              <div className="text-center sm:text-left">
-                <p className="text-[22px] sm:text-[28px] lg:text-[30px] font-bold tracking-tight text-primary leading-none">50+</p>
-                <p className="mt-2 text-[11px] sm:text-[12px] font-medium tracking-[0.08em] uppercase text-secondary">Countries represented</p>
-              </div>
-            </div>
-            <div className="lg:pl-6 lg:border-l border-default">
-              <div className="flex items-center gap-2">
-                <span className="h-px w-6 bg-decorative" aria-hidden="true" />
-                <p className="text-[12px] font-semibold tracking-[0.08em] uppercase text-brand">Verified scale</p>
-              </div>
-              <p className="mt-2 text-[13px] leading-[1.6] text-secondary">
-                Rates, availability and eligibility vary by project. Figures reflect verified historical reach, not guaranteed placement or earnings.
-              </p>
             </div>
           </div>
         </Section>
@@ -257,14 +264,8 @@ export function Landing() {
           <SectionHeading
             eyebrow="The contributor journey"
             title="A clear process from application to project consideration."
-            description="Rolemino manages the initial application and qualification process. Project owners make the final selection decision, while Rolemino continues to track contributor progress and participation."
           />
           <div className="relative">
-            {/* connecting line desktop */}
-            <div className="hidden lg:block absolute top-[28px] left-[calc(8.33%+24px)] right-[calc(8.33%+24px)] h-px bg-default" aria-hidden="true" />
-            {/* brass progress line decorative */}
-            <div className="hidden lg:block absolute top-[28px] left-[calc(8.33%+24px)] w-[18%] h-px bg-decorative" aria-hidden="true" />
-
             <ol className="grid grid-cols-1 lg:grid-cols-5 gap-6 lg:gap-4">
               {[
                 { title: 'Explore opportunities', desc: 'Review the project scope, eligibility requirements and available compensation information.' },
@@ -288,12 +289,6 @@ export function Landing() {
                 </li>
               ))}
             </ol>
-          </div>
-          <div className="mt-8 bg-subtle border border-default rounded-[10px] px-4 py-3">
-            <p className="text-[13px] leading-[1.6] text-secondary flex gap-2">
-              <span aria-hidden="true" className="text-brand mt-0.5">↳</span>
-              Submitting an application does not guarantee selection. Requirements and selection processes vary by project.
-            </p>
           </div>
         </Section>
 
