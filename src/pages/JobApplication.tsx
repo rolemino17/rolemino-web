@@ -101,7 +101,6 @@ export function JobApplication() {
   const [isTermsOpen, setIsTermsOpen] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
   const [successRef, setSuccessRef] = useState<string | undefined>(undefined);
-  const [draftRestored, setDraftRestored] = useState(false);
   const errorSummaryRef = useRef<HTMLDivElement>(null);
   const draftKey = opportunityId;
 
@@ -128,7 +127,6 @@ export function JobApplication() {
         // never restore terms
         dataAgreement: false,
       }));
-      setDraftRestored(true);
       if (draft._resumeReminder) {
         toast('A previously selected resume was not saved. Please select your PDF again.', { icon: 'ℹ️' });
       }
@@ -376,7 +374,6 @@ export function JobApplication() {
       }));
       setResumeFile(null);
       setResumeError(undefined);
-      setDraftRestored(false);
       toast.success('Saved draft cleared.');
     }
   };
@@ -444,7 +441,6 @@ export function JobApplication() {
             )}
             <div className="mt-5 space-y-3 text-[13px] leading-[1.6] text-secondary">
               <p>Official contributor communication is sent through <a href="mailto:careers@rolemino.com" className="text-brand underline">careers@rolemino.com</a>.</p>
-              <p>Rolemino does not request application, registration or placement fees.</p>
             </div>
             <div className="mt-6 flex flex-col sm:flex-row gap-3">
               <Link to="/jobs" className="inline-flex items-center justify-center px-6 py-3 min-h-[44px] rounded-[10px] bg-[var(--color-action-primary)] text-inverse text-[14px] font-medium">Explore other opportunities</Link>
@@ -475,20 +471,11 @@ export function JobApplication() {
           </p>
           <h1 className="mt-2 text-[26px] sm:text-[30px] font-bold tracking-tight text-primary">Apply for {job.title}</h1>
           <p className="mt-2 text-[14px] leading-[1.6] text-secondary">Tell us about your experience, qualifications and availability. Rolemino will review your application against the opportunity requirements.</p>
-          <p className="mt-2 text-[13px] leading-[1.6] text-secondary bg-subtle border border-default rounded-[10px] px-4 py-3">Qualified candidates may be introduced to the project owner, who makes the final selection decision.</p>
-          <p className="mt-3 inline-flex items-center gap-2 text-[13px] font-medium text-strong-secondary"><span aria-hidden="true" className="w-1.5 h-1.5 rounded-full bg-decorative" /> Applying through Rolemino is free. Contributors are not charged application, registration or placement fees.</p>
         </div>
 
         <div className="mb-6">
           <ProgressSteps steps={[...STEPS]} current={currentStep} onStepClick={handleStepClick} />
         </div>
-
-        {draftRestored && (
-          <InlineNotice tone="info">
-            Restored saved draft for this opportunity. Resume selection was not saved and must be chosen again if needed.
-            <button type="button" onClick={handleClearDraft} className="ml-2 underline text-brand">Clear saved application</button>
-          </InlineNotice>
-        )}
 
         <div ref={errorSummaryRef} tabIndex={-1} className="outline-none">
           {formLevelError && <div className="mt-4"><FormErrorSummary errors={[formLevelError]} id="form-error-summary" /></div>}
@@ -547,7 +534,7 @@ export function JobApplication() {
                     ))}
                   </SelectInput>
                 </FormField>
-                <FormField label="Country of birth" htmlFor="countryOfBirth" required error={errors.countryOfBirth} helpText="Used for eligibility where project requirements specify location criteria.">
+                <FormField label="Country of birth" htmlFor="countryOfBirth" required error={errors.countryOfBirth} >
                   <SelectInput id="countryOfBirth" name="countryOfBirth" value={formData.countryOfBirth ?? ''} onChange={handleChange} error={!!errors.countryOfBirth} required>
                     <option value="">Select country</option>
                     {countries.map((c) => (
@@ -666,9 +653,6 @@ export function JobApplication() {
                   </span>
                 </label>
                 {errors.dataAgreement && <p id="dataAgreement-error" className="mt-2 text-[12px] text-danger" role="alert">{errors.dataAgreement}</p>}
-                <p className="mt-3 text-[12px] leading-[1.5] text-secondary">
-                  Rolemino’s Privacy Policy and full website Terms will be published in a later legal-content phase. Official communication is sent through careers@rolemino.com. Rolemino does not request placement fees.
-                </p>
               </div>
             </>
           )}
