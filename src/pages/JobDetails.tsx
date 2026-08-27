@@ -236,7 +236,6 @@ export function JobDetails() {
                 >
                   Back to opportunities
                 </Link>
-                <p className="text-center text-[12px] text-secondary">No application or placement fees.</p>
               </div>
             </div>
 
@@ -389,7 +388,6 @@ export function JobDetails() {
               >
                 Apply for this opportunity
               </button>
-              <p className="mt-2 text-center text-[12px] text-secondary">No application or placement fees.</p>
               <Link
                 to={backHref}
                 className="mt-3 w-full inline-flex items-center justify-center px-6 py-2.5 min-h-[44px] rounded-[10px] border border-default bg-surface text-primary text-[13px] font-medium hover:bg-subtle focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-focus-ring)] transition-colors"

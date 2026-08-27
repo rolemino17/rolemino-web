@@ -166,10 +166,6 @@ export function JobListing() {
           <p className="mt-3 text-[15px] leading-[1.65] text-secondary max-w-[62ch]">
             Explore active projects across professional disciplines. Requirements, location eligibility and compensation vary by opportunity.
           </p>
-          <p className="mt-3 inline-flex items-center gap-2 text-[13px] font-medium text-strong-secondary">
-            <span aria-hidden="true" className="w-1.5 h-1.5 rounded-full bg-decorative shrink-0" />
-            Applying through Rolemino is free.
-          </p>
         </div>
 
         {/* Search + Filters */}

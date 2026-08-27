@@ -180,7 +180,6 @@ export function Navbar() {
               >
                 Explore opportunities
               </Link>
-              <p className="mt-3 text-center text-[12px] text-secondary">No application or placement fees.</p>
             </div>
           </div>
         </div>
