@@ -1,53 +1,9 @@
 import { Link } from 'react-router-dom';
 import type { Job } from '../types';
-
-function truncate(text: string, max: number) {
-  if (text.length <= max) return text;
-  return text.slice(0, max).trimEnd() + '…';
-}
+import { JobCard } from './JobCard';
 
 export function OpportunityPreviewCard({ job }: { job: Job }) {
-  const shortDesc = job.description ? truncate(job.description, 140) : '';
-  return (
-    <article className="group flex flex-col h-full bg-surface border border-default rounded-[12px] p-5 sm:p-6 hover:border-strong transition-colors focus-within:ring-2 focus-within:ring-focus focus-within:ring-offset-0">
-      <div className="flex items-start justify-between gap-3 mb-3">
-        <span className="inline-flex items-center px-2.5 py-1 rounded-full text-[11px] font-medium tracking-wide bg-subtle border border-default text-strong-secondary">
-          {job.domain || 'General'}
-        </span>
-        {job.compensation && (
-          <span className="shrink-0 text-[13px] font-medium text-strong-secondary bg-subtle border border-default rounded-full px-2.5 py-1">
-            {job.compensation}
-          </span>
-        )}
-      </div>
-      <h3 className="text-[16px] sm:text-[17px] font-semibold leading-snug text-primary line-clamp-2">
-        <Link
-          to={`/jobs/${job.id}`}
-          className="hover:text-brand focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-focus-ring)] rounded-sm"
-        >
-          {job.title}
-        </Link>
-      </h3>
-      <div className="mt-2 flex flex-wrap gap-1.5 text-[13px] text-secondary">
-        {job.locationType && <span>{job.locationType}</span>}
-        {job.locationType && job.location && <span aria-hidden="true" className="text-muted">·</span>}
-        {job.location && <span className="line-clamp-1">{job.location}</span>}
-      </div>
-      {shortDesc && <p className="mt-3 text-[14px] leading-[1.6] text-secondary line-clamp-3">{shortDesc}</p>}
-      <div className="mt-auto pt-4">
-        <Link
-          to={`/jobs/${job.id}`}
-          className="relative inline-flex items-center gap-1 text-[14px] font-medium text-brand hover:text-[var(--color-action-link-hover)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-focus-ring)] rounded-sm group-hover:gap-1.5 transition-all"
-          aria-label={`View opportunity: ${job.title}`}
-        >
-          View opportunity
-          <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true" className="shrink-0">
-            <path d="M6 3l5 5-5 5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-          </svg>
-        </Link>
-      </div>
-    </article>
-  );
+  return <JobCard job={job} />;
 }
 
 export function OpportunityCardSkeleton() {
